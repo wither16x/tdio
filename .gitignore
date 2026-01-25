@@ -1,0 +1,5 @@
+.cache/
+.vscode/
+logs/
+compile_commands.json
+tdio
