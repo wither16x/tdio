@@ -6,25 +6,29 @@
 #include <stdlib.h>
 
 static const MonsterDefinition monsterDefinitions[] = {
-    [BAT]                   = {ENTITY_BAT, 1},
-    [DRAGON]                = {ENTITY_DRAGON, 8},
-    [GOBLIN]                = {ENTITY_GOBLIN, 2},
-    [HAND]                  = {ENTITY_HAND, 1},
-    [ROBOT]                 = {ENTITY_ROBOT, 5},
-    [SKELETON]              = {ENTITY_SKELETON, 3},
-    [TROLL]                 = {ENTITY_TROLL, 6},
-    [ZOMBIE]                = {ENTITY_ZOMBIE, 3}
+    [BAT]                   = {"Bat", ENTITY_BAT, 4, 1, 1, 3},
+    [DRAGON]                = {"Dragon", ENTITY_DRAGON, 100, 20, 8, 10},
+    [GOBLIN]                = {"Goblin", ENTITY_GOBLIN, 10, 3, 2, 5},
+    [HAND]                  = {"Floating Hand", ENTITY_HAND, 4, 2, 1, 2},
+    [ROBOT]                 = {"Robot", ENTITY_ROBOT, 30, 6, 5, 6},
+    [SKELETON]              = {"Skeleton", ENTITY_SKELETON, 10, 3, 3, 4},
+    [TROLL]                 = {"Troll", ENTITY_TROLL, 50, 10, 6, 6},
+    [ZOMBIE]                = {"Zombie", ENTITY_ZOMBIE, 10, 3, 3, 3}
 };
 
 Entity* createMonster(MonsterType type, Position startPos) {
     Entity* monster = calloc(1, sizeof(Entity));
     MonsterInfo* info = calloc(1, sizeof(MonsterInfo));
 
-    monster->pos = startPos;
+    monster->name = monsterDefinitions[type].name;
+    monster->hp = monsterDefinitions[type].hp;
     monster->color = COLOR_PAIR(VISIBLE_COLOR);
     monster->ch = monsterDefinitions[type].ch;
+    monster->strength = monsterDefinitions[type].strength;
+    monster->pos = startPos;
 
     info->visible = false;
+    info->fovRadius = monsterDefinitions[type].fovRadius;
 
     monster->monsterInfo = info;
 
@@ -66,9 +70,6 @@ void spawnMonsters(int dungeonLevel) {
         startPos.y = y;
         startPos.x = x;
         monster = createMonster(type, startPos);
-        if (!monster) {
-            continue;
-        }
 
         monsters[monsterCount++] = monster;
         map[y][x].monster = monster;

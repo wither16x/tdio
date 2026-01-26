@@ -84,7 +84,7 @@ bool isTileFreeForMonster(int y, int x) {
     }
 
     for (int i = 0; i < monsterCount; i++) {
-        if (monsters[i]->pos.y == y && monsters[i]->pos.x == x) {
+        if (monsters[i] && monsters[i]->pos.y == y && monsters[i]->pos.x == x) {
             return false;
         }
     }

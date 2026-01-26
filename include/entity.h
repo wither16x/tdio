@@ -28,22 +28,31 @@ typedef enum {
 } MonsterType;
 
 typedef struct {
+    char* name;
     char ch;
+    int hp;
+    int strength;
     int minSpawnDungeonLevel;
+    int fovRadius;
 } MonsterDefinition;
 
 typedef struct {
     int dungeonLevel;
+    Position lastPos;
 } PlayerInfo;
 
 typedef struct {
     bool visible;
+    int fovRadius;
 } MonsterInfo;
 
 typedef struct {
-    Position pos;
+    char* name;
+    int hp;
     char ch;
     int color;
+    int strength;
+    Position pos;
     PlayerInfo* playerInfo;
     MonsterInfo* monsterInfo;
 } Entity;
@@ -55,6 +64,7 @@ void movePlayer(Position newPos);
 bool monsterCanSpawn(MonsterType t, int dungeonLevel);
 MonsterType pickMonster(int dungeonLevel);
 void spawnMonsters(int dungeonLevel);
+void moveEntity(Entity* entity, Position newPos);
 
 extern Entity* player;
 extern Entity* monsters[MAX_MONSTERS];

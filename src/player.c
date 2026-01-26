@@ -1,6 +1,7 @@
 #include <ncurses.h>
 #include <stdlib.h>
 
+#include "dungeon.h"
 #include "entity.h"
 #include "colors.h"
 #include "fov.h"
@@ -12,11 +13,16 @@ Entity* createPlayer(Position startPos) {
     Entity* player = calloc(1, sizeof(Entity));
     PlayerInfo* info = calloc(1, sizeof(PlayerInfo));
 
-    player->pos = startPos;
+    player->name = "Player";
+    player->hp = 10;
     player->ch = ENTITY_PLAYER;
     player->color = COLOR_PAIR(VISIBLE_COLOR);
+    player->strength = 3;
+    player->pos = startPos;
 
     info->dungeonLevel = 1;
+    info->lastPos = startPos;
+
     player->playerInfo = info;
 
     return player;
@@ -46,14 +52,7 @@ void handleInput(int input) {
 
         case KEY_GO_DOWNSTAIRS:
             if (map[player->pos.y][player->pos.x].ch == TILE_DOWNSTAIRS) {
-                setInfoMessage("You go downstairs...");
-                freeMap();
-                map = createMapTiles();
-                player->pos = setupMap();
-                player->playerInfo->dungeonLevel++;
-                setInfoMessage("You go down the stairs...");
-                spawnMonsters(player->playerInfo->dungeonLevel);
-                setPlayerStatsMessage("Dungeon level: %d", player->playerInfo->dungeonLevel);
+                nextLevel();
             } else {
                 setInfoMessage("There are no stairs here.");
             }
@@ -71,10 +70,10 @@ void movePlayer(Position newPos) {
         return;
     }
 
-    if (map[newPos.y][newPos.x].walkable) {
+    if (map[newPos.y][newPos.x].walkable && !map[newPos.y][newPos.x].monster) {
         clearFOV(player);
-        player->pos.x = newPos.x;
-        player->pos.y = newPos.y;
+        player->playerInfo->lastPos = player->pos;
+        player->pos = newPos;
         makeFOV(player);
     }
 }

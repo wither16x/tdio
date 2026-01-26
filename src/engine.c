@@ -5,6 +5,7 @@
 
 #include "colors.h"
 #include "entity.h"
+#include "fight.h"
 #include "fov.h"
 #include "draw.h"
 #include "keys.h"
@@ -38,7 +39,12 @@ void gameSetup(void) {
     player = createPlayer(startPos);
     spawnMonsters(player->playerInfo->dungeonLevel);
     initializeMessageArea();
-    setPlayerStatsMessage("Dungeon level: %d", player->playerInfo->dungeonLevel);
+    setPlayerStatsMessage("%s: HP: %d\tStrength: %d\tDungeon level: %d",
+        player->name,
+        player->hp,
+        player->strength,
+        player->playerInfo->dungeonLevel
+    );
 }
 
 void gameLoop(void) {
@@ -54,7 +60,18 @@ void gameLoop(void) {
         }
 
         handleInput(ch);
+        for (int i = 0; i < monsterCount; i++) {
+            if (monsters[i]) {
+                performFight(player, monsters[i]);
+            }
+        }
         draw();
+        setPlayerStatsMessage("%s: HP: %d\tStrength: %d\tDungeon level: %d",
+            player->name,
+            player->hp,
+            player->strength,
+            player->playerInfo->dungeonLevel
+        );
         displayMessageArea();
     }
 }

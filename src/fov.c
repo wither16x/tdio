@@ -50,6 +50,17 @@ void clearFOV(Entity *player) {
     }
 }
 
+bool monsterSeesPlayer(Entity *monster, Entity *player) {
+    if (!monster || !monster->monsterInfo) {
+        return false;
+    }
+
+    int radius = monster->monsterInfo->fovRadius;
+    int dist = getDistance(monster->pos, player->pos);
+
+    return dist <= radius && lineOfSight(monster->pos, player->pos);
+}
+
 int getDistance(Position origin, Position target) {
     double dy, dx;
     int d;
