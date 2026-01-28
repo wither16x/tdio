@@ -7,14 +7,14 @@
 #include <stdlib.h>
 
 static const MonsterDefinition monsterDefinitions[] = {
-    [BAT]                   = {"Bat", ENTITY_BAT, 4, 1, 1, 3},
-    [DRAGON]                = {"Dragon", ENTITY_DRAGON, 100, 20, 8, 10},
-    [GOBLIN]                = {"Goblin", ENTITY_GOBLIN, 10, 3, 2, 5},
-    [HAND]                  = {"Floating Hand", ENTITY_HAND, 4, 2, 1, 2},
-    [ROBOT]                 = {"Robot", ENTITY_ROBOT, 30, 6, 5, 6},
-    [SKELETON]              = {"Skeleton", ENTITY_SKELETON, 10, 3, 3, 4},
-    [TROLL]                 = {"Troll", ENTITY_TROLL, 50, 10, 6, 6},
-    [ZOMBIE]                = {"Zombie", ENTITY_ZOMBIE, 10, 3, 3, 3}
+    [BAT]                   = {"Bat", ENTITY_BAT, 4, 1, 1, 3, 1},
+    [DRAGON]                = {"Dragon", ENTITY_DRAGON, 100, 20, 16, 10, 100},
+    [GOBLIN]                = {"Goblin", ENTITY_GOBLIN, 10, 3, 4, 5, 5},
+    [HAND]                  = {"Floating Hand", ENTITY_HAND, 4, 2, 1, 2, 2},
+    [ROBOT]                 = {"Robot", ENTITY_ROBOT, 30, 6, 10, 6, 15},
+    [SKELETON]              = {"Skeleton", ENTITY_SKELETON, 10, 3, 6, 4, 4},
+    [TROLL]                 = {"Troll", ENTITY_TROLL, 50, 10, 12, 6, 10},
+    [ZOMBIE]                = {"Zombie", ENTITY_ZOMBIE, 10, 3, 6, 3, 4}
 };
 
 Entity* createMonster(MonsterType type, Position startPos) {
@@ -22,6 +22,7 @@ Entity* createMonster(MonsterType type, Position startPos) {
     MonsterInfo* info = calloc(1, sizeof(MonsterInfo));
 
     monster->name = monsterDefinitions[type].name;
+    monster->hp = monsterDefinitions[type].hp;
     monster->hp = monsterDefinitions[type].hp;
     monster->color = COLOR_PAIR(VISIBLE_COLOR);
     monster->ch = monsterDefinitions[type].ch;
@@ -31,6 +32,7 @@ Entity* createMonster(MonsterType type, Position startPos) {
     info->visible = false;
     info->fovRadius = monsterDefinitions[type].fovRadius;
     info->playerDetected = false;
+    info->xpDrop = monsterDefinitions[type].xpDrop;
 
     monster->monsterInfo = info;
 

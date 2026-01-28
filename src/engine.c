@@ -73,12 +73,28 @@ void gameLoop(void) {
 
 void closeGame(void) {
     endwin();
-    free(player->playerInfo);
-    free(player);
-    for (int i = 0; i < monsterCount; i++) {
-        free(monsters[i]->monsterInfo);
-        free(monsters[i]);
+
+    if (player) {
+        free(player->playerInfo);
+        free(player);
+        player = NULL;
     }
-    free(messageArea);
+
+    for (int i = 0; i < monsterCount; i++) {
+        if (monsters[i]) {
+            free(monsters[i]->monsterInfo);
+            free(monsters[i]);
+            monsters[i] = NULL;
+        }
+    }
+
+    if (messageArea) {
+        free(messageArea);
+        messageArea = NULL;
+    }
+
     freeMap();
+    map = NULL;
+    
+    exit(0);
 }

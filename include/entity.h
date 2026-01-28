@@ -34,21 +34,27 @@ typedef struct {
     int strength;
     int minSpawnDungeonLevel;
     int fovRadius;
+    int xpDrop;
 } MonsterDefinition;
 
 typedef struct {
     int dungeonLevel;
+    int xp;
+    int level;
+    int requiredXP;
 } PlayerInfo;
 
 typedef struct {
     bool visible;
     int fovRadius;
     bool playerDetected;
+    int xpDrop;
 } MonsterInfo;
 
 typedef struct {
     char* name;
     int hp;
+    int maxHP;
     char ch;
     int color;
     int strength;

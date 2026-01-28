@@ -39,10 +39,11 @@ void drawEntity(Entity* entity) {
 void draw(void) {
     clear();
     refresh();
-    setPlayerStatsMessage("%s: HP: %d\tStrength: %d\tDungeon level: %d",
+    setPlayerStatsMessage("%s: HP: %d/%d\tStrength: %d\tLv: %d (%d/%d XP)\tDungeon level: %d",
         player->name,
-        player->hp,
+        player->hp, player->maxHP,
         player->strength,
+        player->playerInfo->level, player->playerInfo->xp, player->playerInfo->requiredXP,
         player->playerInfo->dungeonLevel
     );
     displayMessageArea();

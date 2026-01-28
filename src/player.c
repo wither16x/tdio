@@ -16,12 +16,16 @@ Entity* createPlayer(Position startPos) {
 
     player->name = "Player";
     player->hp = 10;
+    player->maxHP = player->hp;
     player->ch = ENTITY_PLAYER;
     player->color = COLOR_PAIR(VISIBLE_COLOR);
     player->strength = 3;
     player->pos = startPos;
 
     info->dungeonLevel = 1;
+    info->xp = 0;
+    info->level = 1;
+    info->requiredXP = 5;
 
     player->playerInfo = info;
 
