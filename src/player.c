@@ -4,6 +4,7 @@
 #include "dungeon.h"
 #include "entity.h"
 #include "colors.h"
+#include "fight.h"
 #include "fov.h"
 #include "keys.h"
 #include "map.h"
@@ -21,7 +22,6 @@ Entity* createPlayer(Position startPos) {
     player->pos = startPos;
 
     info->dungeonLevel = 1;
-    info->lastPos = startPos;
 
     player->playerInfo = info;
 
@@ -62,7 +62,15 @@ void handleInput(int input) {
             break;
     }
 
-    movePlayer(newPos);
+    for (int i = 0; i < monsterCount; i++) {
+        if (monsters[i] && monsters[i]->pos.x == newPos.x && monsters[i]->pos.y == newPos.y) {
+            playerAttackEnemy(player, monsters[i]);
+        }
+    }
+
+    if (player->pos.x != newPos.x || player->pos.y != newPos.y) {
+        movePlayer(newPos);
+    }
 }
 
 void movePlayer(Position newPos) {
@@ -72,7 +80,6 @@ void movePlayer(Position newPos) {
 
     if (map[newPos.y][newPos.x].walkable && !map[newPos.y][newPos.x].monster) {
         clearFOV(player);
-        player->playerInfo->lastPos = player->pos;
         player->pos = newPos;
         makeFOV(player);
     }

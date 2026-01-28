@@ -60,19 +60,14 @@ void gameLoop(void) {
         }
 
         handleInput(ch);
+
         for (int i = 0; i < monsterCount; i++) {
             if (monsters[i]) {
                 performFight(player, monsters[i]);
             }
         }
+
         draw();
-        setPlayerStatsMessage("%s: HP: %d\tStrength: %d\tDungeon level: %d",
-            player->name,
-            player->hp,
-            player->strength,
-            player->playerInfo->dungeonLevel
-        );
-        displayMessageArea();
     }
 }
 

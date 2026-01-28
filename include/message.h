@@ -10,6 +10,7 @@ typedef struct {
 void initializeMessageArea(void);
 void displayMessageArea(void);
 void setInfoMessage(char* msg, ...);
+void appendInfoMessage(char* msg, ...);
 void setPlayerStatsMessage(char* msg, ...);
 void clearInfoMessage(void);
 

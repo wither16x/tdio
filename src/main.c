@@ -2,6 +2,7 @@
 #include <ncurses.h>
 
 #include "entity.h"
+#include "fight.h"
 #include "map.h"
 #include "engine.h"
 #include "message.h"
@@ -14,6 +15,7 @@ Entity* monsters[MAX_MONSTERS];
 Tile** map;
 MessageArea* messageArea;
 int monsterCount = 0;
+Turn currentTurn = PLAYER_TURN;
 
 int main(void) {
     bool isTerminalCompatible;

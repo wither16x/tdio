@@ -3,6 +3,7 @@
 #include "map.h"
 #include "colors.h"
 #include "entity.h"
+#include "message.h"
 
 void drawMap(void) {
     char ch;
@@ -37,6 +38,14 @@ void drawEntity(Entity* entity) {
 
 void draw(void) {
     clear();
+    refresh();
+    setPlayerStatsMessage("%s: HP: %d\tStrength: %d\tDungeon level: %d",
+        player->name,
+        player->hp,
+        player->strength,
+        player->playerInfo->dungeonLevel
+    );
+    displayMessageArea();
     drawMap();
     drawEntity(player);
 }

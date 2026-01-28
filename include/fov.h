@@ -7,7 +7,7 @@
 
 void makeFOV(Entity* player);
 void clearFOV(Entity* player);
-bool monsterSeesPlayer(Entity* player, Entity* monster);
+bool monsterSeesPlayer(Entity* monster, Entity* player);
 int getDistance(Position origin, Position target);
 bool isInMap(int y, int x);
 bool lineOfSight(Position origin, Position target);

@@ -3,6 +3,7 @@
 #include "map.h"
 #include "position.h"
 #include <ncurses.h>
+#include <stdbool.h>
 #include <stdlib.h>
 
 static const MonsterDefinition monsterDefinitions[] = {
@@ -29,6 +30,7 @@ Entity* createMonster(MonsterType type, Position startPos) {
 
     info->visible = false;
     info->fovRadius = monsterDefinitions[type].fovRadius;
+    info->playerDetected = false;
 
     monster->monsterInfo = info;
 

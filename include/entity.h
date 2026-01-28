@@ -38,12 +38,12 @@ typedef struct {
 
 typedef struct {
     int dungeonLevel;
-    Position lastPos;
 } PlayerInfo;
 
 typedef struct {
     bool visible;
     int fovRadius;
+    bool playerDetected;
 } MonsterInfo;
 
 typedef struct {
