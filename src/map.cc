@@ -100,3 +100,21 @@ const Tile &Map::at(this const Map &self, std::pair<int, int> pos)
 {
     return self.tiles.at(static_cast<std::size_t>(pos.second * WINDOW_WIDTH + pos.first));
 }
+
+std::pair<int, int> Map::findFreePos(this const Map &self)
+{
+    std::vector<std::pair<int, int>> positions;
+
+    for (int y = 0; y < WINDOW_HEIGHT; y++) {
+        for (int x = 0; x < WINDOW_WIDTH; x++) {
+            if (self.at({x, y}).ch != '#')
+                positions.emplace_back(x, y);
+        }
+    }
+
+    std::mt19937 rng(ctx.randdev());
+    std::size_t idx = std::uniform_int_distribution<std::size_t>
+        (0, positions.size())(rng);
+
+    return positions[idx];
+}

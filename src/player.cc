@@ -36,6 +36,11 @@ void Player::move(this Player &self, Direction direction)
         break;
     }
 
+    self.teleport(new_pos);
+}
+
+void Player::teleport(this Player &self, std::pair<int, int> new_pos)
+{
     if (new_pos.first >= 0 and new_pos.first < WINDOW_WIDTH
     and new_pos.second >= 0 and new_pos.second < WINDOW_HEIGHT)
         self.pos = new_pos;

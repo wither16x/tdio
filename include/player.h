@@ -16,6 +16,7 @@ public:
     std::pair<int, int> getPos(this const Player &self);
 
     void move(this Player &self, Direction direction);
+    void teleport(this Player &self, std::pair<int, int> new_pos);
 };
 
 inline Player player('@', {0, 0});

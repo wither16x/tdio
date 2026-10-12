@@ -2,6 +2,7 @@
 #include "input.h"
 #include "map.h"
 #include "painter.h"
+#include "player.h"
 #include <ncurses.h>
 #include <cstdlib>
 
@@ -13,6 +14,7 @@ int main()
     keypad(stdscr, true);
 
     map.generate();
+    player.teleport(map.findFreePos());
 
     Painter painter;
     painter.drawMap();

@@ -38,6 +38,7 @@ public:
 
     const std::array<Tile, WINDOW_WIDTH * WINDOW_HEIGHT> &getTiles(this const Map &self);
     const Tile &at(this const Map &self, std::pair<int, int> pos);
+    std::pair<int, int> findFreePos(this const Map &self);
 };
 
 inline Map map;
