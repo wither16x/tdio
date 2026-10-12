@@ -1,5 +1,6 @@
 #include "ctx.h"
 #include "input.h"
+#include "map.h"
 #include "painter.h"
 #include <ncurses.h>
 #include <cstdlib>
@@ -11,7 +12,10 @@ int main()
     noecho();
     keypad(stdscr, true);
 
+    map.generate();
+
     Painter painter;
+    painter.drawMap();
     painter.drawPlayer();
 
     ctx.running = true;
@@ -20,6 +24,7 @@ int main()
         handleInput(ch);
 
         painter.clearScreen();
+        painter.drawMap();
         painter.drawPlayer();
     }
 

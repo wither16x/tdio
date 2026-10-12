@@ -4,6 +4,7 @@
 struct Painter
 {
     void drawPlayer();
+    void drawMap();
 
     void clearScreen();
 };
