@@ -11,6 +11,13 @@ struct Tile
     std::pair<int, int> pos;
 };
 
+struct Room
+{
+    std::pair<int, int> pos;
+    int width;
+    int height;
+};
+
 class Map
 {
     static constexpr int MIN_ROOMS = 4;
