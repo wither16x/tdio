@@ -4,6 +4,8 @@
 struct Painter
 {
     void drawPlayer();
+
+    void clearScreen();
 };
 
 #endif // PAINTER_H

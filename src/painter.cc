@@ -6,3 +6,8 @@ void Painter::drawPlayer()
 {
     mvaddch(player.getPos().second, player.getPos().first, player.getChar());
 }
+
+void Painter::clearScreen()
+{
+    clear();
+}

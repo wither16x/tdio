@@ -19,6 +19,7 @@ int main()
         int ch = getch();
         handleInput(ch);
 
+        painter.clearScreen();
         painter.drawPlayer();
     }
 

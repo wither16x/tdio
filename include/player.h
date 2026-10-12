@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "direction.h"
 #include <utility>
 
 class Player
@@ -13,6 +14,8 @@ public:
 
     int getChar(this const Player &self);
     std::pair<int, int> getPos(this const Player &self);
+
+    void move(this Player &self, Direction direction);
 };
 
 inline Player player('@', {0, 0});
