@@ -1,5 +1,6 @@
 #include "player.h"
 #include "direction.h"
+#include "win.h"
 #include <ncurses.h>
 
 Player::Player(int ch, std::pair<int, int> pos)
@@ -18,18 +19,24 @@ std::pair<int, int> Player::getPos(this const Player &self)
 
 void Player::move(this Player &self, Direction direction)
 {
+    auto new_pos = self.pos;
+
     switch (direction) {
     case Direction::North:
-        --self.pos.second;
+        --new_pos.second;
         break;
     case Direction::South:
-        ++self.pos.second;
+        ++new_pos.second;
         break;
     case Direction::East:
-        ++self.pos.first;
+        ++new_pos.first;
         break;
     case Direction::West:
-        --self.pos.first;
+        --new_pos.first;
         break;
     }
+
+    if (new_pos.first >= 0 and new_pos.first < WINDOW_WIDTH
+    and new_pos.second >= 0 and new_pos.second < WINDOW_HEIGHT)
+        self.pos = new_pos;
 }

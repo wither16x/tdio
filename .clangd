@@ -18,3 +18,4 @@ CompileFlags:
         - -Wimplicit-fallthrough
         - -Wformat=2
         - -I../include
+        - -Wno-empty-compilation-unit
