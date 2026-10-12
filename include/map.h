@@ -14,8 +14,11 @@ struct Tile
 struct Room
 {
     std::pair<int, int> pos;
+    std::pair<int, int> center;
     int width;
     int height;
+
+    Room(std::pair<int, int> pos, int w, int h);
 
     bool overlaps(this const Room &self, const Room &other);
 };
@@ -31,6 +34,7 @@ class Map
 
 public:
     void generate(this Map &self);
+    void connectRooms(this Map &self, const Room &r1, const Room &r2);
 
     const std::array<Tile, WINDOW_WIDTH * WINDOW_HEIGHT> &getTiles(this const Map &self);
     const Tile &at(this const Map &self, std::pair<int, int> pos);
