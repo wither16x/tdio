@@ -5,7 +5,7 @@ OBJ_DIR := $(BUILD_DIR)/obj
 BIN_DIR := $(BUILD_DIR)/bin
 
 SOURCES := $(shell find $(SOURCE_DIR) -name '*.cc')
-OBJECTS := $(call patsubst,$(SOURCE_DIR)/%.cc,$(OBJ_DIR)/%.o,$(SOURCES))
+OBJECTS := $(call patsubst,$(SOURCE_DIR)/%.cc,$(OBJ_DIR)/%.cc.o,$(SOURCES))
 TARGET := $(BIN_DIR)/tdio
 
 CXX := clang++
@@ -26,17 +26,21 @@ LDFLAGS := -fuse-ld=lld \
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
-	mkdir -p $(BIN_DIR)
-	$(LD) $(LDFLAGS) $^ -o $@
+	@mkdir -p $(BIN_DIR)
+	@echo "$(LD) $^ -> $@"
+	@$(LD) $(LDFLAGS) $^ -o $@
 
-$(OBJ_DIR)/%.o: $(SOURCE_DIR)/%.cc
-	mkdir -p $(OBJ_DIR)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $^ -o $@
+$(OBJ_DIR)/%.cc.o: $(SOURCE_DIR)/%.cc
+	@mkdir -p $(OBJ_DIR)
+	@echo "$(CXX) $^ -> $@"
+	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $^ -o $@
 
 -include $(OBJECTS:.o=.d)
 
 clean:
-	rm -rf $(BUILD_DIR)
+	@echo "Cleaning $(BUILD_DIR)..."
+	@rm -rf $(BUILD_DIR)
 
 run:
-	./$(TARGET)
+	@echo "Running $(TARGET)..."
+	@./$(TARGET)

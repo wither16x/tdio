@@ -1,5 +1,6 @@
-#include "test.h"
+#include "player.h"
 #include <ncurses.h>
+#include <cstdlib>
 
 int main()
 {
@@ -8,10 +9,19 @@ int main()
     noecho();
     keypad(stdscr, true);
 
-    print("hello");
-    getch();
+    Player player('@', {0, 0});
+    player.draw();
+
+    bool running = true;
+    while (running) {
+        int ch = getch();
+        if (ch == 'q')
+            running = false;
+
+        player.draw();
+    }
 
     endwin();
 
-    return 0;
+    return EXIT_SUCCESS;
 }
