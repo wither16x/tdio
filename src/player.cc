@@ -5,7 +5,12 @@ Player::Player(int ch, std::pair<int, int> pos)
     : ch(ch), pos(pos)
 {}
 
-void Player::draw(this const Player &self)
+int Player::getChar(this const Player &self)
 {
-    mvaddch(self.pos.second, self.pos.first, self.ch);
+    return self.ch;
+}
+
+std::pair<int, int> Player::getPos(this const Player &self)
+{
+    return self.pos;
 }

@@ -11,7 +11,8 @@ class Player
 public:
     Player(int ch, std::pair<int, int> pos);
 
-    void draw(this const Player &self);
+    int getChar(this const Player &self);
+    std::pair<int, int> getPos(this const Player &self);
 };
 
 #endif // PLAYER_H

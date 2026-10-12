@@ -1,3 +1,4 @@
+#include "painter.h"
 #include "player.h"
 #include <ncurses.h>
 #include <cstdlib>
@@ -9,8 +10,10 @@ int main()
     noecho();
     keypad(stdscr, true);
 
+    Painter painter;
     Player player('@', {0, 0});
-    player.draw();
+
+    painter.drawPlayer(player);
 
     bool running = true;
     while (running) {
@@ -18,7 +21,7 @@ int main()
         if (ch == 'q')
             running = false;
 
-        player.draw();
+        painter.drawPlayer(player);
     }
 
     endwin();
