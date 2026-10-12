@@ -16,6 +16,8 @@ struct Room
     std::pair<int, int> pos;
     int width;
     int height;
+
+    bool overlaps(this const Room &self, const Room &other);
 };
 
 class Map

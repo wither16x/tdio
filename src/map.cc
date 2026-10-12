@@ -1,8 +1,19 @@
 #include "map.h"
 #include "ctx.h"
 #include "win.h"
+#include <algorithm>
 #include <random>
 #include <array>
+
+bool Room::overlaps(this const Room &self, const Room &other)
+{
+    return not (
+        self.pos.first + self.width < other.pos.first
+        or self.pos.second + self.height < other.pos.second
+        or self.pos.first > other.pos.first + other.width
+        or self.pos.second > other.pos.second + other.height
+    );
+}
 
 void Map::generate(this Map &self)
 {
@@ -16,8 +27,10 @@ void Map::generate(this Map &self)
 
     int nrooms = std::uniform_int_distribution(MIN_ROOMS, MAX_ROOMS)(rng);
     std::vector<Room> rooms;
+    int attempts = 0;
+    constexpr int MAX_ATTEMPTS = MAX_ROOMS * 2;
 
-    for (int i = 0; i < nrooms; i++) {
+    while (static_cast<int>(rooms.size()) < nrooms and attempts++ < MAX_ATTEMPTS) {
         int room_w = std::uniform_int_distribution
             (MIN_ROOM_SIDE_WIDTH, MAX_ROOM_SIDE_WIDTH)(rng);
         int room_h = std::uniform_int_distribution
@@ -25,7 +38,19 @@ void Map::generate(this Map &self)
         int room_x = std::uniform_int_distribution(1, WINDOW_WIDTH - room_w - 1)(rng);
         int room_y = std::uniform_int_distribution(1, WINDOW_HEIGHT - room_h - 1)(rng);
 
-        rooms.push_back({{room_x, room_y}, room_w, room_h});
+        Room r = {
+            {room_x, room_y},
+            room_w,
+            room_h
+        };
+
+        bool collides = std::ranges::any_of(rooms, [&](const Room &other) {
+            return r.overlaps(other);
+        });
+        if (collides)
+            continue;
+
+        rooms.push_back(r);
     }
 
     for (auto &r : rooms) {
