@@ -1,11 +1,9 @@
 #ifndef PAINTER_H
 #define PAINTER_H
 
-#include "player.h"
-
 struct Painter
 {
-    void drawPlayer(const Player &player);
+    void drawPlayer();
 };
 
 #endif // PAINTER_H

@@ -1,5 +1,6 @@
+#include "ctx.h"
+#include "input.h"
 #include "painter.h"
-#include "player.h"
 #include <ncurses.h>
 #include <cstdlib>
 
@@ -11,17 +12,14 @@ int main()
     keypad(stdscr, true);
 
     Painter painter;
-    Player player('@', {0, 0});
+    painter.drawPlayer();
 
-    painter.drawPlayer(player);
-
-    bool running = true;
-    while (running) {
+    ctx.running = true;
+    while (ctx.running) {
         int ch = getch();
-        if (ch == 'q')
-            running = false;
+        handleInput(ch);
 
-        painter.drawPlayer(player);
+        painter.drawPlayer();
     }
 
     endwin();

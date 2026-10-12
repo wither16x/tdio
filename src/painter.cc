@@ -1,7 +1,8 @@
 #include "painter.h"
+#include "player.h"
 #include <ncurses.h>
 
-void Painter::drawPlayer(const Player &player)
+void Painter::drawPlayer()
 {
     mvaddch(player.getPos().second, player.getPos().first, player.getChar());
 }

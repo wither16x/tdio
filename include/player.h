@@ -15,4 +15,6 @@ public:
     std::pair<int, int> getPos(this const Player &self);
 };
 
+inline Player player('@', {0, 0});
+
 #endif // PLAYER_H
