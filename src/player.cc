@@ -1,5 +1,6 @@
 #include "player.h"
 #include "direction.h"
+#include "map.h"
 #include "win.h"
 #include <ncurses.h>
 
@@ -42,6 +43,7 @@ void Player::move(this Player &self, Direction direction)
 void Player::teleport(this Player &self, std::pair<int, int> new_pos)
 {
     if (new_pos.first >= 0 and new_pos.first < WINDOW_WIDTH
-    and new_pos.second >= 0 and new_pos.second < WINDOW_HEIGHT)
+    and new_pos.second >= 0 and new_pos.second < WINDOW_HEIGHT
+    and map.at(new_pos).walkable)
         self.pos = new_pos;
 }

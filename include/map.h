@@ -8,6 +8,7 @@
 struct Tile
 {
     int ch;
+    bool walkable;
     std::pair<int, int> pos;
 };
 

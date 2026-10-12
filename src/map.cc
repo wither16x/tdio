@@ -28,7 +28,7 @@ void Map::generate(this Map &self)
     for (int y = 0; y < WINDOW_HEIGHT; y++) {
         for (int x = 0; x < WINDOW_WIDTH; x++)
             self.tiles.at(static_cast<std::size_t>(y * WINDOW_WIDTH + x))
-                = {'#', {x, y}};
+                = {'#', false, {x, y}};
     }
 
     int nrooms = std::uniform_int_distribution(MIN_ROOMS, MAX_ROOMS)(rng);
@@ -59,7 +59,7 @@ void Map::generate(this Map &self)
         for (int y = r.pos.second; y < r.pos.second + r.height; y++) {
             for (int x = r.pos.first; x < r.pos.first + r.width; x++) {
                 self.tiles.at(static_cast<std::size_t>(y * WINDOW_WIDTH + x))
-                    = {'.', {x, y}};
+                    = {'.', true, {x, y}};
 
                 if (i > 0)
                     self.connectRooms(rooms[static_cast<std::size_t>(i) - 1], r);
@@ -87,7 +87,7 @@ void Map::connectRooms(this Map &self, const Room &r1, const Room &r2)
             connected = true;
 
         self.tiles.at(static_cast<std::size_t>(tmp_pos.second * WINDOW_WIDTH + tmp_pos.first))
-            = {'.', tmp_pos};
+            = {'.', true, tmp_pos};
     }
 }
 
@@ -107,7 +107,7 @@ std::pair<int, int> Map::findFreePos(this const Map &self)
 
     for (int y = 0; y < WINDOW_HEIGHT; y++) {
         for (int x = 0; x < WINDOW_WIDTH; x++) {
-            if (self.at({x, y}).ch != '#')
+            if (self.at({x, y}).walkable)
                 positions.emplace_back(x, y);
         }
     }
