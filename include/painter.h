@@ -3,7 +3,7 @@
 
 struct Painter
 {
-    void drawPlayer();
+    void drawEntities();
     void drawMap();
 
     void clearScreen();

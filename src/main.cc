@@ -1,8 +1,6 @@
 #include "ctx.h"
 #include "input.h"
 #include "painter.h"
-#include "player.h"
-#include <memory>
 #include <ncurses.h>
 #include <cstdlib>
 
@@ -14,17 +12,16 @@ int main()
     keypad(stdscr, true);
 
     g_ctx.map.generate();
-    g_ctx.entities.push_back(std::make_unique<Player>('@', g_ctx.map.findFreePos()));
 
     Painter painter;
     painter.drawMap();
-    painter.drawPlayer();
+    painter.drawEntities();
 
     g_ctx.running = true;
     while (g_ctx.running) {
         painter.clearScreen();
         painter.drawMap();
-        painter.drawPlayer();
+        painter.drawEntities();
 
         g_ctx.msg_area.display();
         g_ctx.msg_area.displayStats();

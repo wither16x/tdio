@@ -31,6 +31,8 @@ class Map
     static constexpr int MAX_ROOMS = 12;
     static constexpr int MIN_ROOM_SIDE_WIDTH = 3;
     static constexpr int MAX_ROOM_SIDE_WIDTH = 15;
+    static constexpr int MIN_ENEMIES = 5;
+    static constexpr int MAX_ENEMIES = 20;
 
     std::array<Tile, WINDOW_WIDTH * WINDOW_HEIGHT> tiles;
 

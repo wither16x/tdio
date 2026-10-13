@@ -5,10 +5,23 @@
 #include <cmath>
 #include <ncurses.h>
 
-void Painter::drawPlayer()
+void Painter::drawEntities()
 {
-    mvaddch(g_ctx.entities[0]->getPos().second, g_ctx.entities[0]->getPos().first,
-        g_ctx.entities[0]->getChar());
+    int px = g_ctx.entities[0]->getPos().first;
+    int py = g_ctx.entities[0]->getPos().second;
+    int fov_radius = 5;
+
+    for (const auto &e : g_ctx.entities) {
+        for (int y = py - fov_radius; y < py + fov_radius; y++) {
+            for (int x = px - fov_radius; x < px + fov_radius; x++) {
+                if (x >= 0 and x < WINDOW_WIDTH and y >= 0 and y < WINDOW_HEIGHT) {
+                    int distance = getDistance(g_ctx.entities[0]->getPos(), e->getPos());
+                    if (distance < fov_radius)
+                        mvaddch(e->getPos().second, e->getPos().first, e->getChar());
+                }
+            }
+        }
+    }
 }
 
 void Painter::drawMap()

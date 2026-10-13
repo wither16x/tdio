@@ -1,5 +1,7 @@
 #include "map.h"
 #include "ctx.h"
+#include "enemy.h"
+#include "player.h"
 #include "win.h"
 #include <algorithm>
 #include <cstdlib>
@@ -70,6 +72,27 @@ void Map::generate(this Map &self)
     auto stair_pos = self.findFreePos();
     self.tiles[static_cast<std::size_t>(stair_pos.second * WINDOW_WIDTH + stair_pos.first)]
         = {'>', true, false, stair_pos};
+
+    g_ctx.entities.clear();
+    g_ctx.entities.push_back(std::make_unique<Player>('@', self.findFreePos()));
+
+    int nenemies = std::uniform_int_distribution(MIN_ENEMIES, MAX_ENEMIES)(rng);
+
+    while (static_cast<int>(g_ctx.entities.size() + 1) < nenemies) {
+        std::vector<std::pair<int, int>> positions;
+
+        for (int y = 0; y < WINDOW_HEIGHT; y++) {
+            for (int x = 0; x < WINDOW_WIDTH; x++) {
+                if (self.at({x, y}).walkable)
+                    positions.emplace_back(x, y);
+            }
+        }
+
+        std::size_t idx = std::uniform_int_distribution<std::size_t>
+            (0, positions.size() - 1)(rng);
+
+        g_ctx.entities.push_back(std::make_unique<Enemy>('B', positions[idx]));
+    }
 }
 
 void Map::connectRooms(this Map &self, const Room &r1, const Room &r2)
@@ -116,7 +139,7 @@ std::pair<int, int> Map::findFreePos(this const Map &self)
 
     std::mt19937 rng(g_ctx.randdev());
     std::size_t idx = std::uniform_int_distribution<std::size_t>
-        (0, positions.size())(rng);
+        (0, positions.size() - 1)(rng);
 
     return positions[idx];
 }
