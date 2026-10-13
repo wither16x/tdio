@@ -20,6 +20,4 @@ public:
     void displayStats() const;
 };
 
-inline MessageArea g_msg_area;
-
 #endif // MSG_H

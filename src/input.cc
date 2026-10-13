@@ -1,9 +1,6 @@
 #include "input.h"
 #include "ctx.h"
-#include "msg.h"
 #include "utils.h"
-#include "map.h"
-#include "player.h"
 
 void handleInput(int ch)
 {
@@ -12,27 +9,27 @@ void handleInput(int ch)
         g_ctx.running = false;
         break;
     case 'h':
-        g_player.move(Direction::West);
+        g_ctx.player.move(Direction::West);
         break;
     case 'j':
-        g_player.move(Direction::South);
+        g_ctx.player.move(Direction::South);
         break;
     case 'k':
-        g_player.move(Direction::North);
+        g_ctx.player.move(Direction::North);
         break;
     case 'l':
-        g_player.move(Direction::East);
+        g_ctx.player.move(Direction::East);
         break;
     case '>':
-        if (not g_player.isOnTile('>')) {
-            g_msg_area.set("There are no stairs here.");
+        if (not g_ctx.player.isOnTile('>')) {
+            g_ctx.msg_area.set("There are no stairs here.");
             break;
         }
 
-        g_msg_area.set("You descend the stairs...");
-        g_map.generate();
-        g_player.teleport(g_map.findFreePos());
-        ++g_player.dungeon_level;
+        g_ctx.msg_area.set("You descend the stairs...");
+        g_ctx.map.generate();
+        g_ctx.player.teleport(g_ctx.map.findFreePos());
+        ++g_ctx.player.dungeon_level;
         break;
     }
 }

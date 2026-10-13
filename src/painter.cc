@@ -1,6 +1,5 @@
 #include "painter.h"
-#include "map.h"
-#include "player.h"
+#include "ctx.h"
 #include "utils.h"
 #include "win.h"
 #include <cmath>
@@ -8,18 +7,18 @@
 
 void Painter::drawPlayer()
 {
-    mvaddch(g_player.getPos().second, g_player.getPos().first, g_player.getChar());
+    mvaddch(g_ctx.player.getPos().second, g_ctx.player.getPos().first, g_ctx.player.getChar());
 }
 
 void Painter::drawMap()
 {
-    int px = g_player.getPos().first;
-    int py = g_player.getPos().second;
+    int px = g_ctx.player.getPos().first;
+    int py = g_ctx.player.getPos().second;
     int fov_radius = 5;
 
     for (int y = 0; y < WINDOW_HEIGHT; y++) {
         for (int x = 0; x < WINDOW_WIDTH; x++) {
-            const Tile &t = g_map.at({x, y});
+            const Tile &t = g_ctx.map.at({x, y});
             if (t.seen)
                 mvaddch(t.pos.second, t.pos.first, t.ch);
         }
@@ -28,9 +27,9 @@ void Painter::drawMap()
     for (int y = py - fov_radius; y < py + fov_radius; y++) {
         for (int x = px - fov_radius; x < px + fov_radius; x++) {
             if (x >= 0 and x < WINDOW_WIDTH and y >= 0 and y < WINDOW_HEIGHT) {
-                int distance = getDistance(g_player.getPos(), {x, y});
+                int distance = getDistance(g_ctx.player.getPos(), {x, y});
                 if (distance < fov_radius) {
-                    Tile &t = g_map.at({x, y});
+                    Tile &t = g_ctx.map.at({x, y});
                     mvaddch(t.pos.second, t.pos.first, t.ch);
                     if (not t.seen)
                         t.seen = true;

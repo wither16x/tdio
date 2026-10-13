@@ -1,9 +1,6 @@
 #include "ctx.h"
 #include "input.h"
-#include "map.h"
-#include "msg.h"
 #include "painter.h"
-#include "player.h"
 #include <ncurses.h>
 #include <cstdlib>
 
@@ -14,8 +11,8 @@ int main()
     noecho();
     keypad(stdscr, true);
 
-    g_map.generate();
-    g_player.teleport(g_map.findFreePos());
+    g_ctx.map.generate();
+    g_ctx.player.teleport(g_ctx.map.findFreePos());
 
     Painter painter;
     painter.drawMap();
@@ -27,11 +24,11 @@ int main()
         painter.drawMap();
         painter.drawPlayer();
 
-        g_msg_area.display();
-        g_msg_area.displayStats();
+        g_ctx.msg_area.display();
+        g_ctx.msg_area.displayStats();
 
         int ch = getch();
-        g_msg_area.clear();
+        g_ctx.msg_area.clear();
         handleInput(ch);
     }
 
