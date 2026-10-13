@@ -5,7 +5,7 @@
 #include <ncurses.h>
 
 Player::Player(int ch, std::pair<int, int> pos)
-    : ch(ch), pos(pos)
+    : ch(ch), pos(pos), dungeon_level(1)
 {}
 
 int Player::getChar(this const Player &self)

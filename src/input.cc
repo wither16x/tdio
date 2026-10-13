@@ -1,5 +1,6 @@
 #include "input.h"
 #include "ctx.h"
+#include "msg.h"
 #include "utils.h"
 #include "map.h"
 #include "player.h"
@@ -23,10 +24,15 @@ void handleInput(int ch)
         player.move(Direction::East);
         break;
     case '>':
-        if (not player.isOnTile('>'))
+        if (not player.isOnTile('>')) {
+            msg_area.set("There are no stairs here.");
             break;
+        }
+
+        msg_area.set("You descend the stairs...");
         map.generate();
         player.teleport(map.findFreePos());
+        ++player.dungeon_level;
         break;
     }
 }

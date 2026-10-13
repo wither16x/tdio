@@ -1,6 +1,7 @@
 #include "ctx.h"
 #include "input.h"
 #include "map.h"
+#include "msg.h"
 #include "painter.h"
 #include "player.h"
 #include <ncurses.h>
@@ -22,12 +23,15 @@ int main()
 
     ctx.running = true;
     while (ctx.running) {
-        int ch = getch();
-        handleInput(ch);
-
         painter.clearScreen();
         painter.drawMap();
         painter.drawPlayer();
+
+        msg_area.display();
+
+        int ch = getch();
+        msg_area.clear();
+        handleInput(ch);
     }
 
     endwin();

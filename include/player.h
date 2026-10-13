@@ -10,6 +10,8 @@ class Player
     std::pair<int, int> pos;
 
 public:
+    int dungeon_level;
+
     Player(int ch, std::pair<int, int> pos);
 
     int getChar(this const Player &self);

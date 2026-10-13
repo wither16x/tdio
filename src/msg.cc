@@ -1,0 +1,13 @@
+#include "msg.h"
+#include "win.h"
+#include <ncurses.h>
+
+void MessageArea::clear(this MessageArea &self)
+{
+    self.text.clear();
+}
+
+void MessageArea::display(this const MessageArea &self)
+{
+    mvprintw(WINDOW_HEIGHT + 1, 0, "%s", self.text.c_str());
+}
