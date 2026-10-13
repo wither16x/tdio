@@ -66,8 +66,11 @@ void Map::generate(this Map &self)
         if (i > 0)
             self.connectRooms(rooms[static_cast<std::size_t>(i) - 1], r);
     }
-}
 
+    auto stair_pos = self.findFreePos();
+    self.tiles[static_cast<std::size_t>(stair_pos.second * WINDOW_WIDTH + stair_pos.first)]
+        = {'>', true, stair_pos};
+}
 
 void Map::connectRooms(this Map &self, const Room &r1, const Room &r2)
 {
