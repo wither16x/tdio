@@ -1,5 +1,5 @@
 #include "player.h"
-#include "direction.h"
+#include "utils.h"
 #include "map.h"
 #include "win.h"
 #include <ncurses.h>

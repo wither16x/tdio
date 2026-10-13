@@ -1,6 +1,6 @@
 #include "input.h"
 #include "ctx.h"
-#include "direction.h"
+#include "utils.h"
 #include "map.h"
 #include "player.h"
 

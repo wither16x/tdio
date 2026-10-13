@@ -1,6 +1,8 @@
 #ifndef DIRECTION_H
 #define DIRECTION_H
 
+#include <utility>
+
 enum class Direction
 {
     North,
@@ -8,5 +10,7 @@ enum class Direction
     East,
     West
 };
+
+int getDistance(std::pair<int, int> origin, std::pair<int, int> target);
 
 #endif // DIRECTION_H

@@ -28,7 +28,7 @@ void Map::generate(this Map &self)
     for (int y = 0; y < WINDOW_HEIGHT; y++) {
         for (int x = 0; x < WINDOW_WIDTH; x++)
             self.tiles.at(static_cast<std::size_t>(y * WINDOW_WIDTH + x))
-                = {'#', false, {x, y}};
+                = {'#', false, false, {x, y}};
     }
 
     int nrooms = std::uniform_int_distribution(MIN_ROOMS, MAX_ROOMS)(rng);
@@ -59,7 +59,7 @@ void Map::generate(this Map &self)
         for (int y = r.pos.second; y < r.pos.second + r.height; y++) {
             for (int x = r.pos.first; x < r.pos.first + r.width; x++) {
                 self.tiles.at(static_cast<std::size_t>(y * WINDOW_WIDTH + x))
-                    = {'.', true, {x, y}};
+                    = {'.', true, false, {x, y}};
             }
         }
 
@@ -69,7 +69,7 @@ void Map::generate(this Map &self)
 
     auto stair_pos = self.findFreePos();
     self.tiles[static_cast<std::size_t>(stair_pos.second * WINDOW_WIDTH + stair_pos.first)]
-        = {'>', true, stair_pos};
+        = {'>', true, false, stair_pos};
 }
 
 void Map::connectRooms(this Map &self, const Room &r1, const Room &r2)
@@ -84,7 +84,7 @@ void Map::connectRooms(this Map &self, const Room &r1, const Room &r2)
             y += (ty > y) ? 1 : -1;
 
         self.tiles.at(static_cast<std::size_t>(y * WINDOW_WIDTH + x))
-            = {'.', true, {x, y}};
+            = {'.', true, false, {x, y}};
     }
 }
 
@@ -94,6 +94,11 @@ const std::array<Tile, WINDOW_WIDTH * WINDOW_HEIGHT> &Map::getTiles(this const M
 }
 
 const Tile &Map::at(this const Map &self, std::pair<int, int> pos)
+{
+    return self.tiles.at(static_cast<std::size_t>(pos.second * WINDOW_WIDTH + pos.first));
+}
+
+Tile &Map::at(this Map &self, std::pair<int, int> pos)
 {
     return self.tiles.at(static_cast<std::size_t>(pos.second * WINDOW_WIDTH + pos.first));
 }
