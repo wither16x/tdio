@@ -8,7 +8,7 @@
 #include <ranges>
 
 Room::Room(std::pair<int, int> pos, int w, int h)
-    : pos(pos), center({pos.first / 2, pos.second / 2}), width(w), height(h)
+    : pos(pos), center({pos.first + w / 2, pos.second + h / 2}), width(w), height(h)
 {}
 
 bool Room::overlaps(this const Room &self, const Room &other)
@@ -33,10 +33,10 @@ void Map::generate(this Map &self)
 
     int nrooms = std::uniform_int_distribution(MIN_ROOMS, MAX_ROOMS)(rng);
     std::vector<Room> rooms;
-    int attmp_posts = 0;
-    constexpr int MAX_ATtmp_posTS = MAX_ROOMS * 2;
+    int attempts = 0;
+    constexpr int MAX_ATTEMPTS = MAX_ROOMS * 10;
 
-    while (static_cast<int>(rooms.size()) < nrooms and attmp_posts++ < MAX_ATtmp_posTS) {
+    while (static_cast<int>(rooms.size()) < nrooms and attempts++ < MAX_ATTEMPTS) {
         int room_w = std::uniform_int_distribution
             (MIN_ROOM_SIDE_WIDTH, MAX_ROOM_SIDE_WIDTH)(rng);
         int room_h = std::uniform_int_distribution
@@ -60,34 +60,28 @@ void Map::generate(this Map &self)
             for (int x = r.pos.first; x < r.pos.first + r.width; x++) {
                 self.tiles.at(static_cast<std::size_t>(y * WINDOW_WIDTH + x))
                     = {'.', true, {x, y}};
-
-                if (i > 0)
-                    self.connectRooms(rooms[static_cast<std::size_t>(i) - 1], r);
             }
         }
+
+        if (i > 0)
+            self.connectRooms(rooms[static_cast<std::size_t>(i) - 1], r);
     }
 }
 
 
 void Map::connectRooms(this Map &self, const Room &r1, const Room &r2)
 {
-    std::pair<int, int> tmp_pos = r1.center;
-    bool connected = false;
+    auto [x, y] = r1.center;
+    const auto [tx, ty] = r2.center;
 
-    while (not connected) {
-        if (std::abs((tmp_pos.first - 1) - r2.pos.first) < std::abs(tmp_pos.first - r2.pos.first))
-            --tmp_pos.first;
-        else if (std::abs((tmp_pos.first + 1) - r2.pos.first) < std::abs(tmp_pos.first - r2.pos.first))
-            ++tmp_pos.first;
-        else if (std::abs((tmp_pos.second + 1) - r2.pos.second) < std::abs(tmp_pos.second - r2.pos.second))
-            ++tmp_pos.second;
-        else if (std::abs((tmp_pos.second - 1) - r2.pos.second) < std::abs(tmp_pos.second - r2.pos.second))
-            --tmp_pos.second;
+    while (x != tx or y != ty) {
+        if (x != tx)
+            x += (tx > x) ? 1 : -1;
         else
-            connected = true;
+            y += (ty > y) ? 1 : -1;
 
-        self.tiles.at(static_cast<std::size_t>(tmp_pos.second * WINDOW_WIDTH + tmp_pos.first))
-            = {'.', true, tmp_pos};
+        self.tiles.at(static_cast<std::size_t>(y * WINDOW_WIDTH + x))
+            = {'.', true, {x, y}};
     }
 }
 
