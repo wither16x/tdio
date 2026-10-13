@@ -1,6 +1,7 @@
 #include "input.h"
 #include "ctx.h"
 #include "direction.h"
+#include "map.h"
 #include "player.h"
 
 void handleInput(int ch)
@@ -20,6 +21,12 @@ void handleInput(int ch)
         break;
     case 'l':
         player.move(Direction::East);
+        break;
+    case '>':
+        if (not player.isOnTile('>'))
+            break;
+        map.generate();
+        player.teleport(map.findFreePos());
         break;
     }
 }

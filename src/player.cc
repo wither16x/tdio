@@ -47,3 +47,8 @@ void Player::teleport(this Player &self, std::pair<int, int> new_pos)
     and map.at(new_pos).walkable)
         self.pos = new_pos;
 }
+
+bool Player::isOnTile(this const Player &self, int tilech)
+{
+    return map.at(self.pos).ch == tilech;
+}

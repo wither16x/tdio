@@ -17,6 +17,8 @@ public:
 
     void move(this Player &self, Direction direction);
     void teleport(this Player &self, std::pair<int, int> new_pos);
+
+    bool isOnTile(this const Player &self, int tilech);
 };
 
 inline Player player('@', {0, 0});
