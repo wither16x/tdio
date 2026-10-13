@@ -5,10 +5,23 @@
 #include "utils.h"
 #include <utility>
 
+enum class EnemyKind
+{
+    Bat,
+    Zombie,
+    Snake,
+    Goblin,
+    Wolf,
+
+    LastEnemy
+};
+
 class Enemy : public Entity
 {
+    EnemyKind kind;
+
 public:
-    Enemy(int ch, std::pair<int, int> pos);
+    Enemy(EnemyKind kind, std::pair<int, int> pos);
 
     ~Enemy() override = default;
 

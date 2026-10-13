@@ -8,6 +8,7 @@
 #include <random>
 #include <array>
 #include <ranges>
+#include <utility>
 
 Room::Room(std::pair<int, int> pos, int w, int h)
     : pos(pos), center({pos.first + w / 2, pos.second + h / 2}), width(w), height(h)
@@ -90,8 +91,10 @@ void Map::generate(this Map &self)
 
         std::size_t idx = std::uniform_int_distribution<std::size_t>
             (0, positions.size() - 1)(rng);
+        auto kind = static_cast<EnemyKind>(std::uniform_int_distribution
+            (0, std::to_underlying(EnemyKind::LastEnemy) - 1)(rng));
 
-        g_ctx.entities.push_back(std::make_unique<Enemy>('B', positions[idx]));
+        g_ctx.entities.push_back(std::make_unique<Enemy>(kind, positions[idx]));
     }
 }
 
