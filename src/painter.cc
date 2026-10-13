@@ -7,13 +7,14 @@
 
 void Painter::drawPlayer()
 {
-    mvaddch(g_ctx.player.getPos().second, g_ctx.player.getPos().first, g_ctx.player.getChar());
+    mvaddch(g_ctx.entities[0]->getPos().second, g_ctx.entities[0]->getPos().first,
+        g_ctx.entities[0]->getChar());
 }
 
 void Painter::drawMap()
 {
-    int px = g_ctx.player.getPos().first;
-    int py = g_ctx.player.getPos().second;
+    int px = g_ctx.entities[0]->getPos().first;
+    int py = g_ctx.entities[0]->getPos().second;
     int fov_radius = 5;
 
     for (int y = 0; y < WINDOW_HEIGHT; y++) {
@@ -27,7 +28,7 @@ void Painter::drawMap()
     for (int y = py - fov_radius; y < py + fov_radius; y++) {
         for (int x = px - fov_radius; x < px + fov_radius; x++) {
             if (x >= 0 and x < WINDOW_WIDTH and y >= 0 and y < WINDOW_HEIGHT) {
-                int distance = getDistance(g_ctx.player.getPos(), {x, y});
+                int distance = getDistance(g_ctx.entities[0]->getPos(), {x, y});
                 if (distance < fov_radius) {
                     Tile &t = g_ctx.map.at({x, y});
                     mvaddch(t.pos.second, t.pos.first, t.ch);

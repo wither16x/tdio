@@ -3,8 +3,10 @@
 
 #include "map.h"
 #include "msg.h"
-#include "player.h"
+#include "entity.h"
+#include <memory>
 #include <random>
+#include <vector>
 
 struct Context
 {
@@ -12,7 +14,8 @@ struct Context
     std::random_device randdev;
     MessageArea msg_area;
     Map map;
-    Player player{'@', {0, 0}};
+    // entities[0] is always the player
+    std::vector<std::unique_ptr<Entity>> entities;
 };
 
 inline Context g_ctx;
