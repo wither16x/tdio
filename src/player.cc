@@ -1,26 +1,14 @@
 #include "player.h"
 #include "utils.h"
-#include "ctx.h"
-#include "win.h"
 #include <ncurses.h>
 
 Player::Player(int ch, std::pair<int, int> pos)
-    : ch(ch), pos(pos), dungeon_level(1)
+    : Entity(ch, pos), dungeon_level(1)
 {}
 
-int Player::getChar(this const Player &self)
+void Player::move(Direction direction)
 {
-    return self.ch;
-}
-
-std::pair<int, int> Player::getPos(this const Player &self)
-{
-    return self.pos;
-}
-
-void Player::move(this Player &self, Direction direction)
-{
-    auto new_pos = self.pos;
+    auto new_pos = this->pos;
 
     switch (direction) {
     case Direction::North:
@@ -37,18 +25,5 @@ void Player::move(this Player &self, Direction direction)
         break;
     }
 
-    self.teleport(new_pos);
-}
-
-void Player::teleport(this Player &self, std::pair<int, int> new_pos)
-{
-    if (new_pos.first >= 0 and new_pos.first < WINDOW_WIDTH
-    and new_pos.second >= 0 and new_pos.second < WINDOW_HEIGHT
-    and g_ctx.map.at(new_pos).walkable)
-        self.pos = new_pos;
-}
-
-bool Player::isOnTile(this const Player &self, int tilech)
-{
-    return g_ctx.map.at(self.pos).ch == tilech;
+    this->setPos(new_pos);
 }

@@ -28,7 +28,7 @@ void handleInput(int ch)
 
         g_ctx.msg_area.set("You descend the stairs...");
         g_ctx.map.generate();
-        g_ctx.player.teleport(g_ctx.map.findFreePos());
+        g_ctx.player.setPos(g_ctx.map.findFreePos());
         ++g_ctx.player.dungeon_level;
         break;
     }

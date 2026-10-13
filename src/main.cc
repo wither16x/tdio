@@ -12,7 +12,7 @@ int main()
     keypad(stdscr, true);
 
     g_ctx.map.generate();
-    g_ctx.player.teleport(g_ctx.map.findFreePos());
+    g_ctx.player.setPos(g_ctx.map.findFreePos());
 
     Painter painter;
     painter.drawMap();

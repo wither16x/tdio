@@ -1,26 +1,20 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "entity.h"
 #include "utils.h"
 #include <utility>
 
-class Player
+class Player : public Entity
 {
-    int ch;
-    std::pair<int, int> pos;
-
 public:
     int dungeon_level;
 
     Player(int ch, std::pair<int, int> pos);
 
-    int getChar(this const Player &self);
-    std::pair<int, int> getPos(this const Player &self);
+    ~Player() override = default;
 
-    void move(this Player &self, Direction direction);
-    void teleport(this Player &self, std::pair<int, int> new_pos);
-
-    bool isOnTile(this const Player &self, int tilech);
+    void move(Direction direction) override;
 };
 
 #endif // PLAYER_H
