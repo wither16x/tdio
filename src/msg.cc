@@ -15,5 +15,5 @@ void MessageArea::display(this const MessageArea &self)
 
 void MessageArea::displayStats() const
 {
-    mvprintw(WINDOW_HEIGHT + 2, 0, "Dungeon level: %d", player.dungeon_level);
+    mvprintw(WINDOW_HEIGHT + 2, 0, "Dungeon level: %d", g_player.dungeon_level);
 }

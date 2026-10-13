@@ -44,11 +44,11 @@ void Player::teleport(this Player &self, std::pair<int, int> new_pos)
 {
     if (new_pos.first >= 0 and new_pos.first < WINDOW_WIDTH
     and new_pos.second >= 0 and new_pos.second < WINDOW_HEIGHT
-    and map.at(new_pos).walkable)
+    and g_map.at(new_pos).walkable)
         self.pos = new_pos;
 }
 
 bool Player::isOnTile(this const Player &self, int tilech)
 {
-    return map.at(self.pos).ch == tilech;
+    return g_map.at(self.pos).ch == tilech;
 }

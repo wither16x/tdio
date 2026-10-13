@@ -9,6 +9,6 @@ struct Context
     std::random_device randdev;
 };
 
-inline Context ctx;
+inline Context g_ctx;
 
 #endif // CTX_H

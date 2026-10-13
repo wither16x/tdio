@@ -23,6 +23,6 @@ public:
     bool isOnTile(this const Player &self, int tilech);
 };
 
-inline Player player('@', {0, 0});
+inline Player g_player('@', {0, 0});
 
 #endif // PLAYER_H

@@ -14,24 +14,24 @@ int main()
     noecho();
     keypad(stdscr, true);
 
-    map.generate();
-    player.teleport(map.findFreePos());
+    g_map.generate();
+    g_player.teleport(g_map.findFreePos());
 
     Painter painter;
     painter.drawMap();
     painter.drawPlayer();
 
-    ctx.running = true;
-    while (ctx.running) {
+    g_ctx.running = true;
+    while (g_ctx.running) {
         painter.clearScreen();
         painter.drawMap();
         painter.drawPlayer();
 
-        msg_area.display();
-        msg_area.displayStats();
+        g_msg_area.display();
+        g_msg_area.displayStats();
 
         int ch = getch();
-        msg_area.clear();
+        g_msg_area.clear();
         handleInput(ch);
     }
 

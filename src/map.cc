@@ -23,7 +23,7 @@ bool Room::overlaps(this const Room &self, const Room &other)
 
 void Map::generate(this Map &self)
 {
-    std::mt19937 rng(ctx.randdev());
+    std::mt19937 rng(g_ctx.randdev());
 
     for (int y = 0; y < WINDOW_HEIGHT; y++) {
         for (int x = 0; x < WINDOW_WIDTH; x++)
@@ -114,7 +114,7 @@ std::pair<int, int> Map::findFreePos(this const Map &self)
         }
     }
 
-    std::mt19937 rng(ctx.randdev());
+    std::mt19937 rng(g_ctx.randdev());
     std::size_t idx = std::uniform_int_distribution<std::size_t>
         (0, positions.size())(rng);
 

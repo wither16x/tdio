@@ -44,6 +44,6 @@ public:
     std::pair<int, int> findFreePos(this const Map &self);
 };
 
-inline Map map;
+inline Map g_map;
 
 #endif // MAP_H
