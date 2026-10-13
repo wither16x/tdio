@@ -28,6 +28,7 @@ int main()
         painter.drawPlayer();
 
         msg_area.display();
+        msg_area.displayStats();
 
         int ch = getch();
         msg_area.clear();

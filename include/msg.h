@@ -17,6 +17,7 @@ public:
 
     void clear(this MessageArea &self);
     void display(this const MessageArea &self);
+    void displayStats() const;
 };
 
 inline MessageArea msg_area;
