@@ -9,6 +9,7 @@ class Entity
 protected:
     int ch;
     std::pair<int, int> pos;
+    bool attacked;
 
 public:
     Entity(int ch, std::pair<int, int> pos);

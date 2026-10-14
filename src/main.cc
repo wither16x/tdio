@@ -1,4 +1,5 @@
 #include "ctx.h"
+#include "enemy.h"
 #include "input.h"
 #include "painter.h"
 #include <ncurses.h>
@@ -29,6 +30,9 @@ int main()
         int ch = getch();
         g_ctx.msg_area.clear();
         handleInput(ch);
+
+        for (auto &e : g_ctx.entities)
+            static_cast<Enemy &>(*e).follow(*g_ctx.entities[0]);
     }
 
     endwin();

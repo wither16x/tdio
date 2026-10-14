@@ -75,7 +75,6 @@ void Map::generate(this Map &self)
     self.tiles[static_cast<std::size_t>(stair_pos.second * WINDOW_WIDTH + stair_pos.first)]
         = {'>', true, false, stair_pos};
 
-
     if (not g_ctx.entities.empty()) {
         auto &player = static_cast<Player &>(*g_ctx.entities[0]);
         g_ctx.entities.erase(g_ctx.entities.begin() + 1, g_ctx.entities.end());

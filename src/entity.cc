@@ -3,7 +3,7 @@
 #include "ctx.h"
 
 Entity::Entity(int ch, std::pair<int, int> pos)
-    : ch(ch), pos(pos)
+    : ch(ch), pos(pos), attacked(false)
 {}
 
 int Entity::getChar(this const Entity &self)

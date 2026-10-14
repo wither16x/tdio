@@ -19,6 +19,7 @@ enum class EnemyKind
 class Enemy : public Entity
 {
     EnemyKind kind;
+    int fov;
 
 public:
     int dungeon_level_min;
@@ -30,6 +31,11 @@ public:
     ~Enemy() override = default;
 
     void move(Direction direction) override;
+
+    void follow(this Enemy &self, const Entity &target);
+    void attack(this const Enemy &self, const Entity &target);
+
+    bool sees(this const Enemy &self, const Entity &target);
 };
 
 #endif // ENEMY_H
