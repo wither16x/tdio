@@ -84,6 +84,9 @@ void Enemy::takeDamage(int count, const Entity &attacker)
 {
     g_ctx.msg_area.set("{} hits the {}.", attacker.getName(), this->name);
     this->hp -= count;
+
+    if (this->hp <= 0)
+        g_ctx.msg_area.set("{} killed the {}!", attacker.getName(), this->name);
 }
 
 void Enemy::follow(this Enemy &self, Entity &target)
@@ -113,6 +116,8 @@ void Enemy::follow(this Enemy &self, Entity &target)
 
 void Enemy::attack(this const Enemy &self, Entity &target)
 {
+    if (self.hp <= 0)
+        return;
     target.takeDamage(self.strength, self);
 }
 
