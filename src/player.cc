@@ -4,9 +4,11 @@
 #include "utils.h"
 #include "win.h"
 #include <ncurses.h>
+#include <random>
 
 Player::Player(int ch, std::pair<int, int> pos, int hp, int strength)
-    : Entity(ch, pos), dungeon_level(1), xp(0), xp_level(1), xp_goal(5)
+    : Entity(ch, pos), dungeon_level(1), xp(0), xp_level(1), xp_goal(5),
+    potions(0)
 {
     this->hp = hp;
     this->max_hp = hp;
@@ -80,6 +82,13 @@ void Player::attack(this Player &self, Entity &target)
         target.takeDamage(self.strength, self);
 
     if (target.getHealth() <= 0) {
+        std::mt19937 rng(g_ctx.randdev());
+        int potion_drop_chances = std::uniform_int_distribution
+            (0, 100)(rng);
+
+        if (potion_drop_chances >= 20)
+            ++self.potions;
+
         self.xp += static_cast<Enemy &>(target).xp;
         if (self.xp >= self.xp_goal) {
             ++self.xp_level;
@@ -89,4 +98,14 @@ void Player::attack(this Player &self, Entity &target)
             self.hp += 5;
         }
     }
+}
+
+void Player::heal(this Player &self)
+{
+    int new_hp = self.hp;
+    if (new_hp + 20 >= self.max_hp)
+        new_hp = self.max_hp;
+    else
+        new_hp += 20;
+    self.hp = new_hp;
 }

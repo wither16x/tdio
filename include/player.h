@@ -12,6 +12,7 @@ public:
     int xp;
     int xp_level;
     int xp_goal;
+    int potions;
 
     Player(int ch, std::pair<int, int> pos, int hp, int strength);
 
@@ -21,6 +22,7 @@ public:
     void takeDamage(int count, const Entity &attacker) override;
 
     void attack(this Player &self, Entity &target);
+    void heal(this Player &self);
 };
 
 #endif // PLAYER_H
