@@ -1,13 +1,15 @@
 #include "player.h"
 #include "ctx.h"
+#include "enemy.h"
 #include "utils.h"
 #include "win.h"
 #include <ncurses.h>
 
 Player::Player(int ch, std::pair<int, int> pos, int hp, int strength)
-    : Entity(ch, pos), dungeon_level(1)
+    : Entity(ch, pos), dungeon_level(1), xp(0), xp_level(1), xp_goal(5)
 {
     this->hp = hp;
+    this->max_hp = hp;
     this->strength = strength;
     this->name = "Player";
 }
@@ -67,7 +69,7 @@ void Player::takeDamage(int count, const Entity &attacker)
     }
 }
 
-void Player::attack(this const Player &self, Entity &target)
+void Player::attack(this Player &self, Entity &target)
 {
     const auto [tx, ty] = target.getPos();
     const auto [ex, ey] = self.getPos();
@@ -76,4 +78,15 @@ void Player::attack(this const Player &self, Entity &target)
 
     if (std::abs(dx) + std::abs(dy) < 2)
         target.takeDamage(self.strength, self);
+
+    if (target.getHealth() <= 0) {
+        self.xp += static_cast<Enemy &>(target).xp;
+        if (self.xp >= self.xp_goal) {
+            ++self.xp_level;
+            self.xp = 0;
+            self.xp_goal *= 2;
+            self.max_hp += 5;
+            self.hp += 5;
+        }
+    }
 }

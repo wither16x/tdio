@@ -12,6 +12,7 @@ protected:
     int ch;
     std::pair<int, int> pos;
     int hp;
+    int max_hp;
     int strength;
 
 public:
@@ -22,6 +23,7 @@ public:
     int getChar(this const Entity &self);
     std::pair<int, int> getPos(this const Entity &self);
     int getHealth(this const Entity &self);
+    int getMaxHealth(this const Entity &self);
     const std::string &getName(this const Entity &self);
 
     void setPos(this Entity &self, std::pair<int, int> pos);

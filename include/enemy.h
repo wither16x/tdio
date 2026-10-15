@@ -25,6 +25,7 @@ public:
     int dungeon_level_min;
     // set to very high value like std::numeric_limits<int>::max() for no max level
     int dungeon_level_max;
+    int xp;
 
     Enemy(EnemyKind kind, std::pair<int, int> pos);
 

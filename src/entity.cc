@@ -21,6 +21,11 @@ int Entity::getHealth(this const Entity &self)
     return self.hp;
 }
 
+int Entity::getMaxHealth(this const Entity &self)
+{
+    return self.max_hp;
+}
+
 const std::string &Entity::getName(this const Entity &self)
 {
     return self.name;

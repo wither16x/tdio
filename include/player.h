@@ -9,6 +9,9 @@ class Player : public Entity
 {
 public:
     int dungeon_level;
+    int xp;
+    int xp_level;
+    int xp_goal;
 
     Player(int ch, std::pair<int, int> pos, int hp, int strength);
 
@@ -17,7 +20,7 @@ public:
     void move(Direction direction) override;
     void takeDamage(int count, const Entity &attacker) override;
 
-    void attack(this const Player &self, Entity &target);
+    void attack(this Player &self, Entity &target);
 };
 
 #endif // PLAYER_H

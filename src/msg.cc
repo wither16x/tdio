@@ -20,8 +20,12 @@ void MessageArea::displayStats() const
 {
     auto &player = static_cast<const Player &>(*g_ctx.entities[0]);
 
-    mvprintw(WINDOW_HEIGHT + 1, 0, "HP: %d, Dungeon level: %d",
+    mvprintw(WINDOW_HEIGHT + 1, 0, "HP: %d/%d\tXP: %d/%d\tLevel: %d\tDungeon level: %d",
         player.getHealth(),
+        player.getMaxHealth(),
+        player.xp,
+        player.xp_goal,
+        player.xp_level,
         player.dungeon_level
     );
 }

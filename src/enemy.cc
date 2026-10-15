@@ -18,6 +18,7 @@ Enemy::Enemy(EnemyKind kind, std::pair<int, int> pos)
         this->dungeon_level_min = 1;
         this->dungeon_level_max = std::numeric_limits<int>::max();
         this->fov = 2;
+        this->xp = 2;
         break;
     case EnemyKind::Zombie:
         this->ch = 'Z';
@@ -27,6 +28,7 @@ Enemy::Enemy(EnemyKind kind, std::pair<int, int> pos)
         this->dungeon_level_min = 1;
         this->dungeon_level_max = std::numeric_limits<int>::max();
         this->fov = 3;
+        this->xp = 4;
         break;
     case EnemyKind::Snake:
         this->ch = 'S';
@@ -36,6 +38,7 @@ Enemy::Enemy(EnemyKind kind, std::pair<int, int> pos)
         this->dungeon_level_min = 2;
         this->dungeon_level_max = std::numeric_limits<int>::max();
         this->fov = 2;
+        this->xp = 3;
         break;
     case EnemyKind::Goblin:
         this->ch = 'G';
@@ -45,6 +48,7 @@ Enemy::Enemy(EnemyKind kind, std::pair<int, int> pos)
         this->dungeon_level_min = 4;
         this->dungeon_level_max = std::numeric_limits<int>::max();
         this->fov = 4;
+        this->xp = 6;
         break;
     case EnemyKind::Wolf:
         this->ch = 'W';
@@ -54,10 +58,13 @@ Enemy::Enemy(EnemyKind kind, std::pair<int, int> pos)
         this->dungeon_level_min = 5;
         this->dungeon_level_max = std::numeric_limits<int>::max();
         this->fov = 4;
+        this->xp = 4;
         break;
     default:
         break;
     }
+
+    this->max_hp = hp;
 }
 
 void Enemy::move(Direction direction)
