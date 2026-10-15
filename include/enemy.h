@@ -3,7 +3,6 @@
 
 #include "entity.h"
 #include "utils.h"
-#include <utility>
 
 enum class EnemyKind
 {
@@ -27,7 +26,7 @@ public:
     int dungeon_level_max;
     int xp;
 
-    Enemy(EnemyKind kind, std::pair<int, int> pos);
+    Enemy(EnemyKind kind, Position pos);
 
     ~Enemy() override = default;
 

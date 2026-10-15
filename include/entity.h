@@ -3,30 +3,29 @@
 
 #include "utils.h"
 #include <string>
-#include <utility>
 
 class Entity
 {
 protected:
     std::string name;
     int ch;
-    std::pair<int, int> pos;
+    Position pos;
     int hp;
     int max_hp;
     int strength;
 
 public:
-    Entity(int ch, std::pair<int, int> pos);
+    Entity(int ch, Position pos);
 
     virtual ~Entity() = default;
 
     int getChar(this const Entity &self);
-    std::pair<int, int> getPos(this const Entity &self);
+    Position getPos(this const Entity &self);
     int getHealth(this const Entity &self);
     int getMaxHealth(this const Entity &self);
     const std::string &getName(this const Entity &self);
 
-    void setPos(this Entity &self, std::pair<int, int> pos);
+    void setPos(this Entity &self, Position pos);
 
     bool isOnTile(this const Entity &self, int tilech);
 

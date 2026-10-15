@@ -6,7 +6,7 @@
 #include <random>
 #include <utility>
 
-Enemy::Enemy(EnemyKind kind, std::pair<int, int> pos)
+Enemy::Enemy(EnemyKind kind, Position pos)
     : Entity(' ', pos), kind(kind)
 {
     switch (this->kind) {
@@ -73,16 +73,16 @@ void Enemy::move(Direction direction)
 
     switch (direction) {
     case Direction::North:
-        --new_pos.second;
+        --new_pos.y;
         break;
     case Direction::South:
-        ++new_pos.second;
+        ++new_pos.y;
         break;
     case Direction::East:
-        ++new_pos.first;
+        ++new_pos.x;
         break;
     case Direction::West:
-        --new_pos.first;
+        --new_pos.x;
         break;
     }
 

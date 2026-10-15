@@ -1,8 +1,9 @@
 #include "entity.h"
+#include "utils.h"
 #include "win.h"
 #include "ctx.h"
 
-Entity::Entity(int ch, std::pair<int, int> pos)
+Entity::Entity(int ch, Position pos)
     : ch(ch), pos(pos), hp(0), strength(0)
 {}
 
@@ -11,7 +12,7 @@ int Entity::getChar(this const Entity &self)
     return self.ch;
 }
 
-std::pair<int, int> Entity::getPos(this const Entity &self)
+Position Entity::getPos(this const Entity &self)
 {
     return self.pos;
 }
@@ -31,10 +32,10 @@ const std::string &Entity::getName(this const Entity &self)
     return self.name;
 }
 
-void Entity::setPos(this Entity &self, std::pair<int, int> new_pos)
+void Entity::setPos(this Entity &self, Position new_pos)
 {
-    if (new_pos.first >= 0 and new_pos.first < WINDOW_WIDTH
-    and new_pos.second >= 0 and new_pos.second < WINDOW_HEIGHT
+    if (new_pos.x >= 0 and new_pos.x < WINDOW_WIDTH
+    and new_pos.y >= 0 and new_pos.y < WINDOW_HEIGHT
     and g_ctx.map.at(new_pos).walkable)
         self.pos = new_pos;
 }

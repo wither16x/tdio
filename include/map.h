@@ -1,8 +1,8 @@
 #ifndef MAP_H
 #define MAP_H
 
+#include "utils.h"
 #include "win.h"
-#include <utility>
 #include <array>
 
 struct Tile
@@ -10,17 +10,17 @@ struct Tile
     int ch;
     bool walkable;
     bool seen;
-    std::pair<int, int> pos;
+    Position pos;
 };
 
 struct Room
 {
-    std::pair<int, int> pos;
-    std::pair<int, int> center;
+    Position pos;
+    Position center;
     int width;
     int height;
 
-    Room(std::pair<int, int> pos, int w, int h);
+    Room(Position pos, int w, int h);
 
     bool overlaps(this const Room &self, const Room &other);
 };
@@ -41,9 +41,9 @@ public:
     void connectRooms(this Map &self, const Room &r1, const Room &r2);
 
     const std::array<Tile, WINDOW_WIDTH * WINDOW_HEIGHT> &getTiles(this const Map &self);
-    const Tile &at(this const Map &self, std::pair<int, int> pos);
-    Tile &at(this Map &self, std::pair<int, int> pos);
-    std::pair<int, int> findFreePos(this const Map &self);
+    const Tile &at(this const Map &self, Position pos);
+    Tile &at(this Map &self, Position pos);
+    Position findFreePos(this const Map &self);
 };
 
 #endif // MAP_H

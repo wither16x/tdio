@@ -3,7 +3,6 @@
 
 #include "entity.h"
 #include "utils.h"
-#include <utility>
 
 class Player : public Entity
 {
@@ -14,7 +13,7 @@ public:
     int xp_goal;
     int potions;
 
-    Player(int ch, std::pair<int, int> pos, int hp, int strength);
+    Player(int ch, Position pos, int hp, int strength);
 
     ~Player() override = default;
 

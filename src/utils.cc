@@ -1,10 +1,10 @@
 #include "utils.h"
 #include <cmath>
 
-int getDistance(std::pair<int, int> origin, std::pair<int, int> target)
+int getDistance(Position origin, Position target)
 {
-    double dx = origin.first - target.first;
-    double dy = origin.second - target.second;
+    double dx = origin.x - target.x;
+    double dy = origin.y - target.y;
     int distance = static_cast<int>(std::floor(std::sqrt((dx * dx) + (dy * dy))));
 
     return distance;

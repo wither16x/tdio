@@ -5,8 +5,9 @@
 #include "win.h"
 #include <ncurses.h>
 #include <random>
+#include <utility>
 
-Player::Player(int ch, std::pair<int, int> pos, int hp, int strength)
+Player::Player(int ch, Position pos, int hp, int strength)
     : Entity(ch, pos), dungeon_level(1), xp(0), xp_level(1), xp_goal(5),
     potions(0)
 {
@@ -22,16 +23,16 @@ void Player::move(Direction direction)
 
     switch (direction) {
     case Direction::North:
-        --new_pos.second;
+        --new_pos.y;
         break;
     case Direction::South:
-        ++new_pos.second;
+        ++new_pos.y;
         break;
     case Direction::East:
-        ++new_pos.first;
+        ++new_pos.x;
         break;
     case Direction::West:
-        --new_pos.first;
+        --new_pos.x;
         break;
     }
 

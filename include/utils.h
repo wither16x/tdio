@@ -1,8 +1,6 @@
 #ifndef DIRECTION_H
 #define DIRECTION_H
 
-#include <utility>
-
 enum class Direction
 {
     North,
@@ -19,6 +17,17 @@ enum class FightAction
     FightActionCount
 };
 
-int getDistance(std::pair<int, int> origin, std::pair<int, int> target);
+struct Position
+{
+    int x;
+    int y;
+
+    inline constexpr bool operator ==(this const Position &self, const Position &other)
+    {
+        return self.x == other.x and self.y == other.y;
+    }
+};
+
+int getDistance(Position origin, Position target);
 
 #endif // DIRECTION_H

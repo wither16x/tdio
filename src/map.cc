@@ -2,6 +2,7 @@
 #include "ctx.h"
 #include "enemy.h"
 #include "player.h"
+#include "utils.h"
 #include "win.h"
 #include <algorithm>
 #include <cstdlib>
@@ -11,17 +12,17 @@
 #include <ranges>
 #include <utility>
 
-Room::Room(std::pair<int, int> pos, int w, int h)
-    : pos(pos), center({pos.first + w / 2, pos.second + h / 2}), width(w), height(h)
+Room::Room(Position pos, int w, int h)
+    : pos(pos), center({pos.x + w / 2, pos.y + h / 2}), width(w), height(h)
 {}
 
 bool Room::overlaps(this const Room &self, const Room &other)
 {
     return not (
-        self.pos.first + self.width < other.pos.first
-        or self.pos.second + self.height < other.pos.second
-        or self.pos.first > other.pos.first + other.width
-        or self.pos.second > other.pos.second + other.height
+        self.pos.x + self.width < other.pos.x
+        or self.pos.y + self.height < other.pos.y
+        or self.pos.x > other.pos.x + other.width
+        or self.pos.y > other.pos.y + other.height
     );
 }
 
@@ -60,8 +61,8 @@ void Map::generate(this Map &self)
     }
 
     for (auto [i, r] : std::ranges::views::enumerate(rooms)) {
-        for (int y = r.pos.second; y < r.pos.second + r.height; y++) {
-            for (int x = r.pos.first; x < r.pos.first + r.width; x++) {
+        for (int y = r.pos.y; y < r.pos.y + r.height; y++) {
+            for (int x = r.pos.x; x < r.pos.x + r.width; x++) {
                 self.tiles.at(static_cast<std::size_t>(y * WINDOW_WIDTH + x))
                     = {'.', true, false, {x, y}};
             }
@@ -72,7 +73,7 @@ void Map::generate(this Map &self)
     }
 
     auto stair_pos = self.findFreePos();
-    self.tiles[static_cast<std::size_t>(stair_pos.second * WINDOW_WIDTH + stair_pos.first)]
+    self.tiles[static_cast<std::size_t>(stair_pos.y * WINDOW_WIDTH + stair_pos.x)]
         = {'>', true, false, stair_pos};
 
     if (not g_ctx.entities.empty()) {
@@ -90,7 +91,7 @@ void Map::generate(this Map &self)
     constexpr int MAX_ATTEMPTS_ENEMIES = MAX_ENEMIES * 10;
 
     while (static_cast<int>(g_ctx.entities.size() + 1) < nenemies and attempts++ < MAX_ATTEMPTS_ENEMIES) {
-        std::vector<std::pair<int, int>> positions;
+        std::vector<Position> positions;
 
         for (int y = 0; y < WINDOW_HEIGHT; y++) {
             for (int x = 0; x < WINDOW_WIDTH; x++) {
@@ -133,19 +134,19 @@ const std::array<Tile, WINDOW_WIDTH * WINDOW_HEIGHT> &Map::getTiles(this const M
     return self.tiles;
 }
 
-const Tile &Map::at(this const Map &self, std::pair<int, int> pos)
+const Tile &Map::at(this const Map &self, Position pos)
 {
-    return self.tiles.at(static_cast<std::size_t>(pos.second * WINDOW_WIDTH + pos.first));
+    return self.tiles.at(static_cast<std::size_t>(pos.y * WINDOW_WIDTH + pos.x));
 }
 
-Tile &Map::at(this Map &self, std::pair<int, int> pos)
+Tile &Map::at(this Map &self, Position pos)
 {
-    return self.tiles.at(static_cast<std::size_t>(pos.second * WINDOW_WIDTH + pos.first));
+    return self.tiles.at(static_cast<std::size_t>(pos.y * WINDOW_WIDTH + pos.x));
 }
 
-std::pair<int, int> Map::findFreePos(this const Map &self)
+Position Map::findFreePos(this const Map &self)
 {
-    std::vector<std::pair<int, int>> positions;
+    std::vector<Position> positions;
 
     for (int y = 0; y < WINDOW_HEIGHT; y++) {
         for (int x = 0; x < WINDOW_WIDTH; x++) {
