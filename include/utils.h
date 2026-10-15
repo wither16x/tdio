@@ -11,6 +11,14 @@ enum class Direction
     West
 };
 
+enum class FightAction
+{
+    Hit,
+    Miss,
+
+    FightActionCount
+};
+
 int getDistance(std::pair<int, int> origin, std::pair<int, int> target);
 
 #endif // DIRECTION_H

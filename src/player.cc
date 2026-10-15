@@ -43,8 +43,18 @@ void Player::move(Direction direction)
 
 void Player::takeDamage(int count, const Entity &attacker)
 {
-    g_ctx.msg_area.set("The {} hits you!", attacker.getName());
-    this->hp -= count;
+    std::mt19937 rng(g_ctx.randdev());
+    auto action = static_cast<FightAction>(
+        std::uniform_int_distribution
+            (0, std::to_underlying(FightAction::FightActionCount) - 1)(rng)
+    );
+
+    if (action == FightAction::Hit) {
+        g_ctx.msg_area.set("The {} hits you!", attacker.getName());
+        this->hp -= count;
+    } else {
+        g_ctx.msg_area.set("The {} misses!", attacker.getName());
+    }
 
     if (this->hp <= 0) {
         g_ctx.msg_area.set("You have been killed by a {}.", attacker.getName());

@@ -3,6 +3,8 @@
 #include "utils.h"
 #include <limits>
 #include <cmath>
+#include <random>
+#include <utility>
 
 Enemy::Enemy(EnemyKind kind, std::pair<int, int> pos)
     : Entity(' ', pos), kind(kind)
@@ -82,8 +84,18 @@ void Enemy::move(Direction direction)
 
 void Enemy::takeDamage(int count, const Entity &attacker)
 {
-    g_ctx.msg_area.set("{} hits the {}.", attacker.getName(), this->name);
-    this->hp -= count;
+    std::mt19937 rng(g_ctx.randdev());
+    auto action = static_cast<FightAction>(
+        std::uniform_int_distribution
+            (0, std::to_underlying(FightAction::FightActionCount) - 1)(rng)
+    );
+
+    if (action == FightAction::Hit) {
+        g_ctx.msg_area.set("{} hits the {}.", attacker.getName(), this->name);
+        this->hp -= count;
+    } else {
+        g_ctx.msg_area.set("{} misses.", attacker.getName());
+    }
 
     if (this->hp <= 0)
         g_ctx.msg_area.set("{} killed the {}!", attacker.getName(), this->name);
