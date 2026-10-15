@@ -1,6 +1,7 @@
 #include "player.h"
 #include "ctx.h"
 #include "utils.h"
+#include "win.h"
 #include <ncurses.h>
 
 Player::Player(int ch, std::pair<int, int> pos, int hp, int strength)
@@ -44,6 +45,16 @@ void Player::takeDamage(int count, const Entity &attacker)
 {
     g_ctx.msg_area.set("The {} hits you!", attacker.getName());
     this->hp -= count;
+
+    if (this->hp <= 0) {
+        g_ctx.msg_area.set("You have been killed by a {}.", attacker.getName());
+        g_ctx.msg_area.display();
+        getch();
+        g_ctx.running = false;
+        g_ctx.painter.clearScreen();
+        mvprintw(WINDOW_HEIGHT / 2, WINDOW_WIDTH / 2, "GAME OVER");
+        getch();
+    }
 }
 
 void Player::attack(this const Player &self, Entity &target)
