@@ -80,7 +80,9 @@ void Map::generate(this Map &self)
         g_ctx.entities.erase(g_ctx.entities.begin() + 1, g_ctx.entities.end());
         g_ctx.entities[0] = std::make_unique<Player>(player);
     } else {
-        g_ctx.entities.push_back(std::make_unique<Player>('@', self.findFreePos()));
+        g_ctx.entities.push_back(
+            std::make_unique<Player>('@', self.findFreePos(), 12, 2)
+        );
     }
 
     int nenemies = std::uniform_int_distribution(MIN_ENEMIES, MAX_ENEMIES)(rng);

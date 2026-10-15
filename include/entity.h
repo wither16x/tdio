@@ -2,14 +2,17 @@
 #define ENTITY_H
 
 #include "utils.h"
+#include <string>
 #include <utility>
 
 class Entity
 {
 protected:
+    std::string name;
     int ch;
     std::pair<int, int> pos;
-    bool attacked;
+    int hp;
+    int strength;
 
 public:
     Entity(int ch, std::pair<int, int> pos);
@@ -18,12 +21,15 @@ public:
 
     int getChar(this const Entity &self);
     std::pair<int, int> getPos(this const Entity &self);
+    int getHealth(this const Entity &self);
+    const std::string &getName(this const Entity &self);
 
     void setPos(this Entity &self, std::pair<int, int> pos);
 
     bool isOnTile(this const Entity &self, int tilech);
 
     virtual void move(Direction direction) = 0;
+    virtual void takeDamage(int count, const Entity &attacker) = 0;
 };
 
 #endif // ENTITY_H

@@ -29,10 +29,11 @@ int main()
 
         int ch = getch();
         g_ctx.msg_area.clear();
-        handleInput(ch);
+        if (not handleInput(ch))
+            continue;
 
-        for (auto &e : g_ctx.entities)
-            static_cast<Enemy &>(*e).follow(*g_ctx.entities[0]);
+        for (std::size_t i = 1; i < g_ctx.entities.size(); i++)
+            static_cast<Enemy &>(*g_ctx.entities[i]).follow(*g_ctx.entities[0]);
     }
 
     endwin();

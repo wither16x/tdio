@@ -3,16 +3,17 @@
 
 #include <format>
 #include <string>
+#include <vector>
 
 class MessageArea
 {
-    std::string text;
+    std::vector<std::string> lines;
 
 public:
     template<typename... Args>
     void set(this MessageArea &self, const std::string &new_text, Args &&...args)
     {
-        self.text = std::vformat(new_text, std::make_format_args(args...));
+        self.lines.push_back(std::vformat(new_text, std::make_format_args(args...)));
     }
 
     void clear(this MessageArea &self);

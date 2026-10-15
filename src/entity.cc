@@ -3,7 +3,7 @@
 #include "ctx.h"
 
 Entity::Entity(int ch, std::pair<int, int> pos)
-    : ch(ch), pos(pos), attacked(false)
+    : ch(ch), pos(pos), hp(0), strength(0)
 {}
 
 int Entity::getChar(this const Entity &self)
@@ -14,6 +14,16 @@ int Entity::getChar(this const Entity &self)
 std::pair<int, int> Entity::getPos(this const Entity &self)
 {
     return self.pos;
+}
+
+int Entity::getHealth(this const Entity &self)
+{
+    return self.hp;
+}
+
+const std::string &Entity::getName(this const Entity &self)
+{
+    return self.name;
 }
 
 void Entity::setPos(this Entity &self, std::pair<int, int> new_pos)

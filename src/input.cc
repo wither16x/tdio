@@ -3,34 +3,36 @@
 #include "utils.h"
 #include "player.h"
 
-void handleInput(int ch)
+bool handleInput(int ch)
 {
     switch (ch) {
     case 'q':
         g_ctx.running = false;
-        break;
+        return false;
     case 'h':
         g_ctx.entities[0]->move(Direction::West);
-        break;
+        return true;
     case 'j':
         g_ctx.entities[0]->move(Direction::South);
-        break;
+        return true;
     case 'k':
         g_ctx.entities[0]->move(Direction::North);
-        break;
+        return true;
     case 'l':
         g_ctx.entities[0]->move(Direction::East);
-        break;
+        return true;
     case '>':
         if (not g_ctx.entities[0]->isOnTile('>')) {
             g_ctx.msg_area.set("There are no stairs here.");
-            break;
+            return false;
         }
 
         g_ctx.msg_area.set("You descend the stairs...");
         g_ctx.map.generate();
         g_ctx.entities[0]->setPos(g_ctx.map.findFreePos());
         ++static_cast<Player &>(*g_ctx.entities[0]).dungeon_level;
-        break;
+        return false;
     }
+
+    return false;
 }

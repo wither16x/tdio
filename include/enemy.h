@@ -31,9 +31,10 @@ public:
     ~Enemy() override = default;
 
     void move(Direction direction) override;
+    void takeDamage(int count, const Entity &attacker) override;
 
-    void follow(this Enemy &self, const Entity &target);
-    void attack(this const Enemy &self, const Entity &target);
+    void follow(this Enemy &self, Entity &target);
+    void attack(this const Enemy &self, Entity &target);
 
     bool sees(this const Enemy &self, const Entity &target);
 };

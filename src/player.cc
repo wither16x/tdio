@@ -1,10 +1,15 @@
 #include "player.h"
+#include "ctx.h"
 #include "utils.h"
 #include <ncurses.h>
 
-Player::Player(int ch, std::pair<int, int> pos)
+Player::Player(int ch, std::pair<int, int> pos, int hp, int strength)
     : Entity(ch, pos), dungeon_level(1)
-{}
+{
+    this->hp = hp;
+    this->strength = strength;
+    this->name = "Player";
+}
 
 void Player::move(Direction direction)
 {
@@ -25,5 +30,29 @@ void Player::move(Direction direction)
         break;
     }
 
+    for (std::size_t i = 1; i < g_ctx.entities.size(); i++) {
+        if (g_ctx.entities[i]->getPos() == new_pos) {
+            this->attack(*g_ctx.entities[i]);
+            return;
+        }
+    }
+
     this->setPos(new_pos);
+}
+
+void Player::takeDamage(int count, const Entity &attacker)
+{
+    g_ctx.msg_area.set("The {} hits you!", attacker.getName());
+    this->hp -= count;
+}
+
+void Player::attack(this const Player &self, Entity &target)
+{
+    const auto [tx, ty] = target.getPos();
+    const auto [ex, ey] = self.getPos();
+    const int dx = tx - ex;
+    const int dy = ty - ey;
+
+    if (std::abs(dx) + std::abs(dy) < 2)
+        target.takeDamage(self.strength, self);
 }
