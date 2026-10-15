@@ -19,8 +19,8 @@ public:
 
     void move(Direction direction) override;
     void takeDamage(int count, const Entity &attacker) override;
+    void attack(Entity &target) override;
 
-    void attack(this Player &self, Entity &target);
     void heal(this Player &self);
 };
 

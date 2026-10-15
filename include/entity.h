@@ -31,6 +31,7 @@ public:
 
     virtual void move(Direction direction) = 0;
     virtual void takeDamage(int count, const Entity &attacker) = 0;
+    virtual void attack(Entity &target) = 0;
 };
 
 #endif // ENTITY_H

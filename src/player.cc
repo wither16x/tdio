@@ -72,15 +72,15 @@ void Player::takeDamage(int count, const Entity &attacker)
     }
 }
 
-void Player::attack(this Player &self, Entity &target)
+void Player::attack(Entity &target)
 {
     const auto [tx, ty] = target.getPos();
-    const auto [ex, ey] = self.getPos();
+    const auto [ex, ey] = this->getPos();
     const int dx = tx - ex;
     const int dy = ty - ey;
 
     if (std::abs(dx) + std::abs(dy) < 2)
-        target.takeDamage(self.strength, self);
+        target.takeDamage(this->strength, *this);
 
     if (target.getHealth() <= 0) {
         std::mt19937 rng(g_ctx.randdev());
@@ -88,15 +88,15 @@ void Player::attack(this Player &self, Entity &target)
             (0, 100)(rng);
 
         if (potion_drop_chances >= 20)
-            ++self.potions;
+            ++this->potions;
 
-        self.xp += static_cast<Enemy &>(target).xp;
-        if (self.xp >= self.xp_goal) {
-            ++self.xp_level;
-            self.xp = 0;
-            self.xp_goal *= 2;
-            self.max_hp += 5;
-            self.hp += 5;
+        this->xp += static_cast<Enemy &>(target).xp;
+        if (this->xp >= this->xp_goal) {
+            ++this->xp_level;
+            this->xp = 0;
+            this->xp_goal *= 2;
+            this->max_hp += 5;
+            this->hp += 5;
         }
     }
 }

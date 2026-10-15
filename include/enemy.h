@@ -32,10 +32,9 @@ public:
 
     void move(Direction direction) override;
     void takeDamage(int count, const Entity &attacker) override;
+    void attack(Entity &target) override;
 
     void follow(this Enemy &self, Entity &target);
-    void attack(this const Enemy &self, Entity &target);
-
     bool sees(this const Enemy &self, const Entity &target);
 };
 

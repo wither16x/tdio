@@ -133,11 +133,11 @@ void Enemy::follow(this Enemy &self, Entity &target)
         self.move(Direction::North);
 }
 
-void Enemy::attack(this const Enemy &self, Entity &target)
+void Enemy::attack(Entity &target)
 {
-    if (self.hp <= 0)
+    if (this->hp <= 0)
         return;
-    target.takeDamage(self.strength, self);
+    target.takeDamage(this->strength, *this);
 }
 
 bool Enemy::sees(this const Enemy &self, const Entity &target)
