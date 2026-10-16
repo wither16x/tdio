@@ -28,9 +28,9 @@ bool handleInput(int ch)
         }
 
         g_ctx.msg_area.set("You descend the stairs...");
+        ++static_cast<Player &>(*g_ctx.entities[0]).dungeon_level;
         g_ctx.map.generate();
         g_ctx.entities[0]->setPos(g_ctx.map.findFreePos());
-        ++static_cast<Player &>(*g_ctx.entities[0]).dungeon_level;
         return false;
     case 'd': {
         auto &player = static_cast<Player &>(*g_ctx.entities[0]);
