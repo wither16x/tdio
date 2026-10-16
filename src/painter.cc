@@ -15,7 +15,7 @@ void Painter::drawEntities()
         for (int y = py - fov_radius; y < py + fov_radius; y++) {
             for (int x = px - fov_radius; x < px + fov_radius; x++) {
                 if (x >= 0 and x < WINDOW_WIDTH and y >= 0 and y < WINDOW_HEIGHT) {
-                    int distance = getDistance(g_ctx.entities[0]->getPos(), e->getPos());
+                    int distance = g_ctx.entities[0]->getPos().distance(e->getPos());
                     if (distance < fov_radius)
                         mvaddch(e->getPos().y, e->getPos().x, e->getChar());
                 }
@@ -41,7 +41,7 @@ void Painter::drawMap()
     for (int y = py - fov_radius; y < py + fov_radius; y++) {
         for (int x = px - fov_radius; x < px + fov_radius; x++) {
             if (x >= 0 and x < WINDOW_WIDTH and y >= 0 and y < WINDOW_HEIGHT) {
-                int distance = getDistance(g_ctx.entities[0]->getPos(), {x, y});
+                int distance = g_ctx.entities[0]->getPos().distance({x, y});
                 if (distance < fov_radius) {
                     Tile &t = g_ctx.map.at({x, y});
                     mvaddch(t.pos.y, t.pos.x, t.ch);

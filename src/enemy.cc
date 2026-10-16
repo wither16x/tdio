@@ -142,5 +142,5 @@ void Enemy::attack(Entity &target)
 
 bool Enemy::sees(this const Enemy &self, const Entity &target)
 {
-    return getDistance(self.getPos(), target.getPos()) < self.fov;
+    return self.pos.distance(target.getPos()) < self.fov;
 }
