@@ -4,7 +4,6 @@
 #include "utils.h"
 #include "win.h"
 #include <ncurses.h>
-#include <random>
 #include <utility>
 
 Player::Player(int ch, Position pos, int hp, int strength)
@@ -48,10 +47,10 @@ void Player::move(Direction direction)
 
 void Player::takeDamage(int count, const Entity &attacker)
 {
-    std::mt19937 rng(g_ctx.randdev());
     auto action = static_cast<FightAction>(
         std::uniform_int_distribution
-            (0, std::to_underlying(FightAction::FightActionCount) - 1)(rng)
+            (0, std::to_underlying(FightAction::FightActionCount) - 1)
+            (g_ctx.randgen)
     );
 
     if (action == FightAction::Hit) {
@@ -83,9 +82,8 @@ void Player::attack(Entity &target)
         target.takeDamage(this->strength, *this);
 
     if (target.getHealth() <= 0) {
-        std::mt19937 rng(g_ctx.randdev());
         int potion_drop_chances = std::uniform_int_distribution
-            (0, 100)(rng);
+            (0, 100)(g_ctx.randgen);
 
         if (potion_drop_chances <= 20)
             ++this->potions;

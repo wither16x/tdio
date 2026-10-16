@@ -3,7 +3,6 @@
 #include "utils.h"
 #include <limits>
 #include <cmath>
-#include <random>
 #include <utility>
 
 Enemy::Enemy(EnemyKind kind, Position pos)
@@ -91,10 +90,10 @@ void Enemy::move(Direction direction)
 
 void Enemy::takeDamage(int count, const Entity &attacker)
 {
-    std::mt19937 rng(g_ctx.randdev());
     auto action = static_cast<FightAction>(
         std::uniform_int_distribution
-            (0, std::to_underlying(FightAction::FightActionCount) - 1)(rng)
+            (0, std::to_underlying(FightAction::FightActionCount) - 1)
+            (g_ctx.randgen)
     );
 
     if (action == FightAction::Hit) {

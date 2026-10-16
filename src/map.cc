@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <cstdlib>
 #include <memory>
-#include <random>
 #include <array>
 #include <ranges>
 #include <utility>
@@ -28,26 +27,24 @@ bool Room::overlaps(this const Room &self, const Room &other)
 
 void Map::generate(this Map &self)
 {
-    std::mt19937 rng(g_ctx.randdev());
-
     for (int y = 0; y < WINDOW_HEIGHT; y++) {
         for (int x = 0; x < WINDOW_WIDTH; x++)
             self.tiles.at(static_cast<std::size_t>(y * WINDOW_WIDTH + x))
                 = {'#', false, false, {x, y}};
     }
 
-    int nrooms = std::uniform_int_distribution(MIN_ROOMS, MAX_ROOMS)(rng);
+    int nrooms = std::uniform_int_distribution(MIN_ROOMS, MAX_ROOMS)(g_ctx.randgen);
     std::vector<Room> rooms;
     int attempts = 0;
     constexpr int MAX_ATTEMPTS = MAX_ROOMS * 10;
 
     while (static_cast<int>(rooms.size()) < nrooms and attempts++ < MAX_ATTEMPTS) {
         int room_w = std::uniform_int_distribution
-            (MIN_ROOM_SIDE_WIDTH, MAX_ROOM_SIDE_WIDTH)(rng);
+            (MIN_ROOM_SIDE_WIDTH, MAX_ROOM_SIDE_WIDTH)(g_ctx.randgen);
         int room_h = std::uniform_int_distribution
-            (MIN_ROOM_SIDE_WIDTH, MAX_ROOM_SIDE_WIDTH)(rng);
-        int room_x = std::uniform_int_distribution(1, WINDOW_WIDTH - room_w - 1)(rng);
-        int room_y = std::uniform_int_distribution(1, WINDOW_HEIGHT - room_h - 1)(rng);
+            (MIN_ROOM_SIDE_WIDTH, MAX_ROOM_SIDE_WIDTH)(g_ctx.randgen);
+        int room_x = std::uniform_int_distribution(1, WINDOW_WIDTH - room_w - 1)(g_ctx.randgen);
+        int room_y = std::uniform_int_distribution(1, WINDOW_HEIGHT - room_h - 1)(g_ctx.randgen);
 
         Room r({room_x, room_y}, room_w, room_h);
 
@@ -86,7 +83,7 @@ void Map::generate(this Map &self)
         );
     }
 
-    int nenemies = std::uniform_int_distribution(MIN_ENEMIES, MAX_ENEMIES)(rng);
+    int nenemies = std::uniform_int_distribution(MIN_ENEMIES, MAX_ENEMIES)(g_ctx.randgen);
     attempts = 0;
     constexpr int MAX_ATTEMPTS_ENEMIES = MAX_ENEMIES * 10;
 
@@ -101,9 +98,9 @@ void Map::generate(this Map &self)
         }
 
         std::size_t idx = std::uniform_int_distribution<std::size_t>
-            (0, positions.size() - 1)(rng);
+            (0, positions.size() - 1)(g_ctx.randgen);
         auto kind = static_cast<EnemyKind>(std::uniform_int_distribution
-            (0, std::to_underlying(EnemyKind::LastEnemy) - 1)(rng));
+            (0, std::to_underlying(EnemyKind::LastEnemy) - 1)(g_ctx.randgen));
 
         auto e = Enemy(kind, positions[idx]);
 
@@ -155,9 +152,8 @@ Position Map::findFreePos(this const Map &self)
         }
     }
 
-    std::mt19937 rng(g_ctx.randdev());
     std::size_t idx = std::uniform_int_distribution<std::size_t>
-        (0, positions.size() - 1)(rng);
+        (0, positions.size() - 1)(g_ctx.randgen);
 
     return positions[idx];
 }
