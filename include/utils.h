@@ -1,5 +1,5 @@
-#ifndef DIRECTION_H
-#define DIRECTION_H
+#ifndef UTILS_H
+#define UTILS_H
 
 enum class Direction
 {
@@ -30,4 +30,4 @@ struct Position
 
 int getDistance(Position origin, Position target);
 
-#endif // DIRECTION_H
+#endif // UTILS_H
