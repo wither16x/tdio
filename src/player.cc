@@ -87,7 +87,7 @@ void Player::attack(Entity &target)
         int potion_drop_chances = std::uniform_int_distribution
             (0, 100)(rng);
 
-        if (potion_drop_chances >= 20)
+        if (potion_drop_chances <= 20)
             ++this->potions;
 
         this->xp += static_cast<Enemy &>(target).xp;
