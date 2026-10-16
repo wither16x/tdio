@@ -90,7 +90,7 @@ void Map::generate(this Map &self)
     attempts = 0;
     constexpr int MAX_ATTEMPTS_ENEMIES = MAX_ENEMIES * 10;
 
-    while (static_cast<int>(g_ctx.entities.size() + 1) < nenemies and attempts++ < MAX_ATTEMPTS_ENEMIES) {
+    while (static_cast<int>(g_ctx.entities.size() - 1) < nenemies and attempts++ < MAX_ATTEMPTS_ENEMIES) {
         std::vector<Position> positions;
 
         for (int y = 0; y < WINDOW_HEIGHT; y++) {
