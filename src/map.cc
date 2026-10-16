@@ -25,20 +25,22 @@ bool Room::overlaps(this const Room &self, const Room &other)
     );
 }
 
-void Map::generate(this Map &self)
+void Map::fillWithWalls(this Map &self)
 {
     for (int y = 0; y < WINDOW_HEIGHT; y++) {
         for (int x = 0; x < WINDOW_WIDTH; x++)
             self.tiles.at(static_cast<std::size_t>(y * WINDOW_WIDTH + x))
                 = {'#', false, false, {x, y}};
     }
+}
 
+void Map::carveRooms(this Map &self)
+{
     int nrooms = std::uniform_int_distribution(MIN_ROOMS, MAX_ROOMS)(g_ctx.randgen);
-    std::vector<Room> rooms;
     int attempts = 0;
     constexpr int MAX_ATTEMPTS = MAX_ROOMS * 10;
 
-    while (static_cast<int>(rooms.size()) < nrooms and attempts++ < MAX_ATTEMPTS) {
+    while (static_cast<int>(self.rooms.size()) < nrooms and attempts++ < MAX_ATTEMPTS) {
         int room_w = std::uniform_int_distribution
             (MIN_ROOM_SIDE_WIDTH, MAX_ROOM_SIDE_WIDTH)(g_ctx.randgen);
         int room_h = std::uniform_int_distribution
@@ -48,16 +50,19 @@ void Map::generate(this Map &self)
 
         Room r({room_x, room_y}, room_w, room_h);
 
-        bool collides = std::ranges::any_of(rooms, [&](const Room &other) {
+        bool collides = std::ranges::any_of(self.rooms, [&](const Room &other) {
             return r.overlaps(other);
         });
         if (collides)
             continue;
 
-        rooms.push_back(r);
+        self.rooms.push_back(r);
     }
+}
 
-    for (auto [i, r] : std::ranges::views::enumerate(rooms)) {
+void Map::carvePaths(this Map &self)
+{
+    for (auto [i, r] : std::ranges::views::enumerate(self.rooms)) {
         for (int y = r.pos.y; y < r.pos.y + r.height; y++) {
             for (int x = r.pos.x; x < r.pos.x + r.width; x++) {
                 self.tiles.at(static_cast<std::size_t>(y * WINDOW_WIDTH + x))
@@ -66,13 +71,19 @@ void Map::generate(this Map &self)
         }
 
         if (i > 0)
-            self.connectRooms(rooms[static_cast<std::size_t>(i) - 1], r);
+            self.connectRooms(self.rooms[static_cast<std::size_t>(i) - 1], r);
     }
+}
 
+void Map::generateStairs(this Map &self)
+{
     auto stair_pos = self.findFreePos();
     self.tiles[static_cast<std::size_t>(stair_pos.y * WINDOW_WIDTH + stair_pos.x)]
         = {'>', true, false, stair_pos};
+}
 
+void Map::generateEntities(this Map &self)
+{
     if (not g_ctx.entities.empty()) {
         auto &player = static_cast<Player &>(*g_ctx.entities[0]);
         g_ctx.entities.erase(g_ctx.entities.begin() + 1, g_ctx.entities.end());
@@ -84,7 +95,7 @@ void Map::generate(this Map &self)
     }
 
     int nenemies = std::uniform_int_distribution(MIN_ENEMIES, MAX_ENEMIES)(g_ctx.randgen);
-    attempts = 0;
+    int attempts = 0;
     constexpr int MAX_ATTEMPTS_ENEMIES = MAX_ENEMIES * 10;
 
     while (static_cast<int>(g_ctx.entities.size() - 1) < nenemies and attempts++ < MAX_ATTEMPTS_ENEMIES) {
@@ -108,6 +119,15 @@ void Map::generate(this Map &self)
         if (dungeon_lv >= e.dungeon_level_min and dungeon_lv <= e.dungeon_level_max)
             g_ctx.entities.push_back(std::make_unique<Enemy>(e));
     }
+}
+
+void Map::generate(this Map &self)
+{
+    self.fillWithWalls();
+    self.carveRooms();
+    self.carvePaths();
+    self.generateStairs();
+    self.generateEntities();
 }
 
 void Map::connectRooms(this Map &self, const Room &r1, const Room &r2)

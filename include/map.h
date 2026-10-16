@@ -4,6 +4,7 @@
 #include "utils.h"
 #include "win.h"
 #include <array>
+#include <vector>
 
 struct Tile
 {
@@ -35,6 +36,13 @@ class Map
     static constexpr int MAX_ENEMIES = 20;
 
     std::array<Tile, WINDOW_WIDTH * WINDOW_HEIGHT> tiles;
+    std::vector<Room> rooms;
+
+    void fillWithWalls(this Map &self);
+    void carveRooms(this Map &self);
+    void carvePaths(this Map &self);
+    void generateStairs(this Map &self);
+    void generateEntities(this Map &self);
 
 public:
     void generate(this Map &self);
