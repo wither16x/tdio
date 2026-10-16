@@ -105,11 +105,11 @@ void Map::generate(this Map &self)
         auto kind = static_cast<EnemyKind>(std::uniform_int_distribution
             (0, std::to_underlying(EnemyKind::LastEnemy) - 1)(rng));
 
-        auto e = new Enemy(kind, positions[idx]);
+        auto e = Enemy(kind, positions[idx]);
 
         int dungeon_lv = static_cast<const Player &>(*g_ctx.entities[0]).dungeon_level;
-        if (dungeon_lv >= e->dungeon_level_min and dungeon_lv <= e->dungeon_level_max)
-            g_ctx.entities.push_back(std::make_unique<Enemy>(*e));
+        if (dungeon_lv >= e.dungeon_level_min and dungeon_lv <= e.dungeon_level_max)
+            g_ctx.entities.push_back(std::make_unique<Enemy>(e));
     }
 }
 

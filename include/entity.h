@@ -26,7 +26,6 @@ public:
     const std::string &getName(this const Entity &self);
 
     void setPos(this Entity &self, Position pos);
-
     bool isOnTile(this const Entity &self, int tilech);
 
     virtual void move(Direction direction) = 0;
