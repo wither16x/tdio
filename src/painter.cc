@@ -7,19 +7,14 @@
 
 void Painter::drawEntities()
 {
-    int px = g_ctx.entities[0]->getPos().x;
-    int py = g_ctx.entities[0]->getPos().y;
     int fov_radius = 5;
 
     for (const auto &e : g_ctx.entities) {
-        for (int y = py - fov_radius; y < py + fov_radius; y++) {
-            for (int x = px - fov_radius; x < px + fov_radius; x++) {
-                if (x >= 0 and x < WINDOW_WIDTH and y >= 0 and y < WINDOW_HEIGHT) {
-                    int distance = g_ctx.entities[0]->getPos().distance(e->getPos());
-                    if (distance < fov_radius)
-                        mvaddch(e->getPos().y, e->getPos().x, e->getChar());
-                }
-            }
+        if (e->getPos().x >= 0 and e->getPos().x < WINDOW_WIDTH
+        and e->getPos().y >= 0 and e->getPos().y < WINDOW_HEIGHT) {
+            int distance = g_ctx.entities[0]->getPos().distance(e->getPos());
+            if (distance < fov_radius)
+                mvaddch(e->getPos().y, e->getPos().x, e->getChar());
         }
     }
 }
